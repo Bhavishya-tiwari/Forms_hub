@@ -22,10 +22,20 @@
       <label class="logo">Form hub</label>
       <ul>
         <li><a  href="">Home</a></li>
-     <li><a href="#">Create Form</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">Feedback</a></li>
+        
+     <li><a href="createform">Create Form</a></li>
+        {% comment %} <li><a href="#">Services</a></li> {% endcomment %}
+        {% comment %} <li><a href="#">Contact</a></li> {% endcomment %}
+        {% load socialaccount %}
+        {% if user.is_authenticated %}
+        <li><a href="logout">Logout</a></li>
+    
+
+      {% else %}
+        <li><a href="{% provider_login_url 'google' %}">Login</a></li>
+      {% endif %}
+
+
       </ul>
     </nav>
     <section></section>
@@ -35,6 +45,7 @@
 {% block body %}
 
 {% endblock body %}
+    Welcome, You are logged in as {{ user.first_name }}
 
 
    {% comment %} **********************END BODY********************************************* {% endcomment %}
