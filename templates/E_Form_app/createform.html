@@ -1,1 +1,148 @@
 {% extends 'base.html' %}
+{% block title %}Create Form{% endblock title %}
+<!-- Button trigger modal -->
+{% block css %}
+<style>
+    .block{
+        min-height: 20vh;
+        max-height: 80vh;
+        width: 60vw;
+        background-color: aqua;
+        margin: auto;
+        border-radius: 6px;
+        position: relative;
+top: 6vh; 
+box-shadow: grey 3px 3px 3px;
+   }
+</style>
+{% endblock css %}
+{% block body %}
+<div class="block">
+
+
+
+ 
+  <a class="btn btn-primary m-4" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Add question</a>
+
+</div>
+
+<div class="container">
+
+
+
+
+
+
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Select type</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <ul>
+            <li>
+                <label for="Short">
+ Short Ans
+               </label> 
+               <input type="checkbox" name="Short" id="Short">
+             </li>
+            <li>
+                <label for="long">
+                    Long Ans
+               </label> 
+               <input type="checkbox" name="Short" id="long">
+             </li>
+            <li>
+                <label for="MultipleC">
+ Multiple correct
+               </label> 
+               <input type="checkbox" name="Short" id="MultipleC">
+             </li>
+            <li>
+                <label for="Single"> 
+                   Single Correct 
+               </label> 
+               <input type="checkbox" name="Short" id="Single">
+             </li>
+            <li>
+                <label for="Switch">
+ Switch
+               </label> 
+               <input type="checkbox" name="Short" id="Switch">
+             </li>
+            <li>
+                <label for="Date">
+ Date
+               </label> 
+               <input type="checkbox" name="Short" id="Date">
+             </li>
+           
+ 
+           </ul>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" id="Enter_qsn">Enter Question Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel2">Enter Question</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div id="data">
+            Please select question catagory
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+
+    
+    // the selector will match all input controls of type :checkbox
+// and attach a click event handler 
+$("input:checkbox").on('click', function() {
+  // in the handler, 'this' refers to the box clicked on
+  var $box = $(this);
+  if ($box.is(":checked")) {
+    // the name of the box is retrieved using the .attr() method
+    // as it is assumed and expected to be immutable
+    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+    // the checked state of the group/box on the other hand will change
+    // and the current value is retrieved using .prop() method
+    $(group).prop("checked", false);
+    $box.prop("checked", true);
+  } else {
+    $box.prop("checked", false);
+  }
+});
+
+
+document.getElementById('Enter_qsn').addEventListener('click',()=>{
+  if (document.getElementById('Short').checked) {
+   
+
+    
+  }
+  else if (document.getElementById('long').checked) {
+   
+
+    
+  }
+})
+
+</script>
+{% endblock body %}
