@@ -5,6 +5,8 @@ from E_Form_app import views
 urlpatterns = [
     path('', views.Home, name='Home'),
     path('createform', views.createform, name='createform'),
+    path('createformdata', views.createformdata, name='createformdata'),
+    path('previewform', views.previewform, name='previewform'),
     path('logout', views.hlogout, name='logout'),
     
 ]

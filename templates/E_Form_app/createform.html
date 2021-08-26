@@ -2,7 +2,7 @@
 {% block title %}Create Form{% endblock title %}
 <!-- Button trigger modal -->
 {% block css %}
-<link rel="stylesheet" href="https://codepen.io/gymratpacks/pen/VKzBEp#0">
+<!-- <link rel="stylesheet" href="https://codepen.io/gymratpacks/pen/VKzBEp#0"> -->
 <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
 <style>
  
@@ -55,12 +55,18 @@ select {
   height: auto;
   margin: 0;
   outline: 0;
-  padding: 15px;
+  padding: 7px;
   width: 100%;
   background-color: #e8eeef;
   color: #8a97a0;
   box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
-  margin-bottom: 30px;
+  margin-bottom: 3px;
+}
+.render{
+  min-height: 20vh;
+  max-height: 90vh;
+  overflow-y: scroll;
+  background-color: rgb(226, 255, 253);
 }
 
 input[type="radio"],
@@ -123,6 +129,10 @@ label.light {
   border-radius: 100%;
 }
 
+#render{
+  width: 80%;
+  margin: 15px auto;
+}
 @media screen and (min-width: 480px) {
 
   form {
@@ -137,14 +147,15 @@ label.light {
 <div class="block mt-4">
   <div class="container">
   <label for="bio"> <h3> Form Title</h3></label>
-  <textarea id="bio" name="user_bio"></textarea>      
+  <textarea id="title" name="user_bio"></textarea>      
      <label for="bio"><h3> Form Discription</h3></label>
-  <textarea id="bio" name="user_bio"></textarea>
+  <textarea id="discc" name="user_bio"></textarea>
 </div>
 
  
 
-</div>
+
+
 
 <div class="container">
 
@@ -174,6 +185,12 @@ label.light {
                     Long Ans
                </label> 
                <input type="radio" name="Short" id="long">
+             </li>
+            <li>
+                <label for="email">
+                    Email
+               </label> 
+               <input type="radio" name="Short" id="email">
              </li>
             <li>
                 <label for="MultipleC">
@@ -235,10 +252,21 @@ label.light {
       </div>
 
       
-      <a class="btn btn-primary m-4" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Add question</a>
+      
+      <div class="render">
+        <div id="render">
+
         </div>
+
       </div>
 
+      <a class="btn btn-primary my-4" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Add question</a>
+      <form method="post" action="#" id="Send_Data" style="top: 0;left: 0vw;background-color: white;" >{% csrf_token %}
+        {% csrf_token %}
+      <button class="btn btn-danger m-4" style="width: 80%;" type="submit" >Create Form</button>
+    </form>
+        </div>
+      </div>
       
 
 
@@ -271,7 +299,7 @@ document.getElementById('Enter_qsn').addEventListener('click',()=>{
   if (document.getElementById('Short').checked) {
     
     document.getElementById('data').innerHTML =  ` <label for="name">Enter Question:</label>
-    <input type="text" id="name" name="Short Qsn">
+    <input type="text" id="Short_qsn" name="Short Qsn">
     `
    
 
@@ -279,22 +307,24 @@ document.getElementById('Enter_qsn').addEventListener('click',()=>{
   }
   else if (document.getElementById('long').checked) {
     document.getElementById('data').innerHTML =  ` <label for="name">Enter Question:</label>
-    <input type="text" id="name" name="Short Qsn">
+    <input type="text" id="long_qsn" name="Short Qsn">
    `
 
     
   }
   else if (document.getElementById('MultipleC').checked) {
     multiple =true
+ multiple_option_nos = 0;
+
 
     document.getElementById('data').innerHTML =  ` <label for="name">Enter Question:</label>
-    <input type="text" id="name" name="Short Qsn">
+    <input type="text" id="Multiple_qsn" name="Short Qsn">
     <hr>
     <div id="options">
    
     </div>
 
-    <button class="btn btn-danger" id="Add_options"  onclick="addop()"  type="button" style="width: 30%"; >Add options</button>
+    <button class="btn btn-danger my-2" id="Add_options"  onclick="addop()"  type="button" style="width: 30%"; >Add options</button>
 
     `
 
@@ -305,13 +335,13 @@ document.getElementById('Enter_qsn').addEventListener('click',()=>{
     else if (document.getElementById('Single').checked) {
       single = true
       document.getElementById('data').innerHTML =  ` <label for="name">Enter Question:</label>
-    <input type="text" id="name" name="Short Qsn">
+    <input type="text" id="Singlee_qsn" name="Short Qsn">
     <hr>
     <div id="options">
    
     </div>
 
-    <button class="btn btn-danger" id="Add_options"  onclick="addopS()"  type="button" style="width: 30%"; >Add options</button>
+    <button class="btn btn-danger my-3" id="Add_options"  onclick="addopS()"  type="button" style="width: 30%"; >Add options</button>
 
     `
 
@@ -322,10 +352,19 @@ document.getElementById('Enter_qsn').addEventListener('click',()=>{
 
   else if (document.getElementById('Date').checked) {
     document.getElementById('data').innerHTML =  `     <label for="name">Enter Question:</label>
-    <input type="text" id="name" name="Short Qsn">
+    <input type="text" id="date_qsn" name="Short Qsn">
 
 
     `
+
+    
+  }
+  else if (document.getElementById('email').checked) {
+    document.getElementById('data').innerHTML =  `     <label for="name">Enter Question:</label>
+    <input type="text" id="email" name="Short Qsn">
+    `
+
+
 
     
   }
@@ -333,72 +372,268 @@ document.getElementById('Enter_qsn').addEventListener('click',()=>{
 
 })
 
-
 var multiple_option_nos=0;
 function addop(){
+
 multiple_option_nos = multiple_option_nos+1;
-  let start= document.getElementById('options').innerHTML  
-  let mid =` <label for="name">option ${multiple_option_nos}</label>
-  <input type="text" id="name" name="Short Qsn">`
+  // let start= document.getElementById('options').innerHTML  
+  // let mid =` 
+  //    <label=for="name">option ${multiple_option_nos}</label>
+  // <input type="text" id="mult${multiple_option_nos}" name="Short Qsn">`
   
-  document.getElementById('options').innerHTML = start + mid
+  // document.getElementById('options').innerHTML = start
   
+  var lable = document.createElement("lable");
+  var input = document.createElement("input");
+  var f = document.createAttribute("for");
+  lable.innerHTML = `option ${multiple_option_nos}`;
+  document.getElementById("options").appendChild(lable);
+
+
+  
+  var t = document.createAttribute("type");
+  t.value = "text"
+  input.setAttributeNode(t);
+
+  var ii = document.createAttribute("id");
+  ii.value =`mult${multiple_option_nos}`
+  input.setAttributeNode(ii);
+
+  document.getElementById("options").appendChild(input);
+
+
   console.log('k');
 }
 
 var single_option_nos=0;
 function addopS(){
-single_option_nos = single_option_nos+1;
-  let start= document.getElementById('options').innerHTML  
-  let mid =` <label for="name">option ${single_option_nos}</label>
-  <input type="text" id="name" name="Short Qsn">`
+  single_option_nos = single_option_nos+1;
+
+  var lable = document.createElement("lable");
+  var input = document.createElement("input");
+  var f = document.createAttribute("for");
+  lable.innerHTML = `option ${single_option_nos}`;
+  document.getElementById("options").appendChild(lable);
+
+
   
-  document.getElementById('options').innerHTML = start + mid
-  
-  console.log('k');
+  var t = document.createAttribute("type");
+  t.value = "text"
+  input.setAttributeNode(t);
+
+  var ii = document.createAttribute("id");
+  ii.value =`sing${single_option_nos}`
+  input.setAttributeNode(ii);
+
+  document.getElementById("options").appendChild(input);
+
+
+
 }
-  
+
+// ***********Actual ***************************************************************
+
 
 var QsnArr =[]
-
-
+var QsnRender ="";
+var Qsnnumber = 0;
 document.getElementById('Add_data').addEventListener('click',()=>{
   
   if (document.getElementById('Short').checked) {
-   
+    Qsnnumber = Qsnnumber+1;
+    let o = {
+      "Type":"Short",
+      "Qno":Qsnnumber,
+      "Q":document.getElementById('Short_qsn').value,
+
+    }
+     QsnArr.push(o)
+   QsnRender = QsnRender + `Qsn: ${Qsnnumber} :- <label for="name">${document.getElementById('Short_qsn').value}</label>
+    <input type="text" id="name" name="Short Qsn"> <hr>`
+
+    document.getElementById('render').innerHTML = QsnRender
+  }
           
 
    
 
     
-  }
   else if (document.getElementById('long').checked) {
+    Qsnnumber = Qsnnumber+1;
+    let o = {
+      "Type":"Long",
+      "Qno":Qsnnumber,
+      "Q":document.getElementById('long_qsn').value,
+    }
+
+  
+    QsnRender = QsnRender + `    Qsn: ${Qsnnumber} :-   <label for="bio">${document.getElementById('long_qsn').value}</label>
+          <textarea id="bio" name="user_bio"></textarea> <hr>
+        `
+
+    document.getElementById('render').innerHTML = QsnRender
+
+
+     QsnArr.push(o)
+
    
 
     
   }
   else if (document.getElementById('MultipleC').checked) {
-   
+    Qsnnumber = Qsnnumber+1;
+    let qsn = document.getElementById('Multiple_qsn').value;
+
+    let opt = ''
+    var optAr=[]
+
+    for(j=0;j<multiple_option_nos;j++){
+      id = "mult" + (j+1);
+      optAr.push(document.getElementById(id).value)
+      opt = opt+` <input type="checkbox" id="mu${j}" value="interest_development" name="user_interest"><label class="light" for="mu${j}">${document.getElementById(id).value}</label><br>`;
+
+    }
+    
+    let o = {
+      "Type":"MultipleC",
+      "Qno":Qsnnumber,
+      "Q":document.getElementById('Multiple_qsn').value,
+      "opt":optAr
+    }
+    QsnArr.push(o)
+
+    QsnRender = QsnRender + `Qsn: ${Qsnnumber} :-` + qsn + `<br>`+ opt + `<hr>`
+    document.getElementById('render').innerHTML = QsnRender
+
+
 
     
   }
     else if (document.getElementById('Single').checked) {
+      Qsnnumber = Qsnnumber+1;
+    let qsn = document.getElementById('Singlee_qsn').value;
+
+    let opt = ''
+    var optAr=[]
+
+    for(j=0;j<single_option_nos;j++){
+      id = "sing" + (j+1);
+      optAr.push(document.getElementById(id).value)
+      opt = opt+` <input type="radio" id="si${j}" value="interest_development" name="user_interest"><label class="light" for="si${j}">${document.getElementById(id).value}</label><br>`;
+
+    }
+    
+    let o = {
+      "Type":"SingleC",
+      "Qno":Qsnnumber,
+      "Q":document.getElementById('Singlee_qsn').value,
+      "opt":optAr
+    }
+    QsnArr.push(o)
+
+    QsnRender = QsnRender + `Qsn: ${Qsnnumber} :-` + qsn + `<br>`+ opt + `<hr>`
+    document.getElementById('render').innerHTML = QsnRender
+
    
 
     
   }
 
   else if (document.getElementById('Date').checked) {
+    Qsnnumber = Qsnnumber+1;
+    let o = {
+      "Type":"Date",
+      "Qno":Qsnnumber,
+      "Q":document.getElementById('date_qsn').value,
+
+    }
+     QsnArr.push(o)
+   QsnRender = QsnRender + `Qsn: ${Qsnnumber} :- <label for="name">${document.getElementById('date_qsn').value}</label>
+    <input type="date" id="name" name="Short Qsn"> <hr>`
+
+    document.getElementById('render').innerHTML = QsnRender
+    
+
    
 
     
   }
-  else if (document.getElementById('Email').checked) {
+  else if (document.getElementById('email').checked) {
+    Qsnnumber = Qsnnumber+1;
+    let o = {
+      "Type":"Email",
+      "Qno":Qsnnumber,
+      "Q":document.getElementById('email').value,
+
+    }
+     QsnArr.push(o)
+   QsnRender = QsnRender + `Qsn: ${Qsnnumber} :- <label for="name">${document.getElementById('email').value}</label>
+    <input type="email" id="name" name="Short Qsn"> <hr>`
+
+    document.getElementById('render').innerHTML = QsnRender
+
    
 
     
   }
 
+})
+// ******************Sending data*******************
+
+$('#Send_Data').submit(function (event) {
+    var formData = {
+        "Qsns":JSON.stringify(QsnArr),
+
+        "Title":document.getElementById('title').value,
+        "Disc":document.getElementById('discc').value,
+
+        
+
+        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+    };
+    $.ajax({
+        type: 'POST',
+        url: '/createformdata',
+        data: formData,
+        encode: true
+    })
+        .done(function (data) {
+          console.log(data);
+            // var st = ""
+            // console.log("idovm");
+            // updates = JSON.parse(data);
+            // console.log(data)
+
+            // updates.forEach(e => {
+            //     st = st + `
+            //                     <tr>
+            //                         <td>${e.Name}</td>
+            //                         <td>${e.Add}</td>
+            //                         <td>${e.Phone}</td>
+            //                         <td>Available</td>
+            //                     </tr> `
+
+
+
+            // });
+
+            // newstr = `<table class="fl-table">
+            // <thead>
+            // <tr>
+            //     <th class="head-table" >Hospital</th>
+            //     <th class="head-table">Address</th>
+            //     <th class="head-table">Contact no.</th>
+            //     <th class="head-table">Status</th>
+            // </tr>
+            // </thead>
+            // <tbody>` + st + `  <tbody>
+            // </table>`
+            // document.getElementById('DataShown').innerHTML = newstr;
+                
+
+
+        });
+    event.preventDefault();
 })
 
 </script>
