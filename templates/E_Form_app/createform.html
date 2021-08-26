@@ -2,27 +2,147 @@
 {% block title %}Create Form{% endblock title %}
 <!-- Button trigger modal -->
 {% block css %}
+<link rel="stylesheet" href="https://codepen.io/gymratpacks/pen/VKzBEp#0">
+<link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
 <style>
-    .block{
-        min-height: 20vh;
-        max-height: 80vh;
-        width: 60vw;
-        background-color: aqua;
-        margin: auto;
-        border-radius: 6px;
-        position: relative;
-top: 6vh; 
-box-shadow: grey 3px 3px 3px;
-   }
+ 
+
+   /*  */
+   *, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: #384047;
+}
+
+form {
+  max-width: 300px;
+  /* z-index: -1; */
+  margin:auto;
+  position: relative;
+  top: 6vh;
+  left: 15vw;
+  /* justify-content: center; */
+  padding: 10px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+}
+
+h1 {
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+textarea,
+select {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 15px;
+  width: 100%;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  margin-bottom: 30px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0 4px 8px 0;
+}
+
+select {
+  padding: 6px;
+  height: 32px;
+  border-radius: 2px;
+}
+
+button {
+  padding: 19px 39px 18px 39px;
+  color: #FFF;
+  background-color: #4bc970;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid #3ac162;
+  border-width: 1px 1px 3px;
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+  margin-bottom: 10px;
+}
+
+fieldset {
+  margin-bottom: 30px;
+  border: none;
+}
+
+legend {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+/* 
+label {
+  display: block;
+  margin-bottom: 8px;
+} */
+
+label.light {
+  font-weight: 300;
+  display: inline;
+}
+
+.number {
+  background-color: #5fcf80;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  font-size: 0.8em;
+  margin-right: 4px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+  border-radius: 100%;
+}
+
+@media screen and (min-width: 480px) {
+
+  form {
+    max-width: 480px;
+  }
+
+}
+
 </style>
 {% endblock css %}
 {% block body %}
-<div class="block">
-
-
+<div class="block mt-4">
+  <div class="container">
+  <label for="bio"> <h3> Form Title</h3></label>
+  <textarea id="bio" name="user_bio"></textarea>      
+     <label for="bio"><h3> Form Discription</h3></label>
+  <textarea id="bio" name="user_bio"></textarea>
+</div>
 
  
-  <a class="btn btn-primary m-4" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Add question</a>
 
 </div>
 
@@ -46,38 +166,35 @@ box-shadow: grey 3px 3px 3px;
                 <label for="Short">
  Short Ans
                </label> 
-               <input type="checkbox" name="Short" id="Short">
+               <input type="radio" name="Short" id="Short">
              </li>
+            
             <li>
                 <label for="long">
                     Long Ans
                </label> 
-               <input type="checkbox" name="Short" id="long">
+               <input type="radio" name="Short" id="long">
              </li>
             <li>
                 <label for="MultipleC">
  Multiple correct
                </label> 
-               <input type="checkbox" name="Short" id="MultipleC">
+               <input type="radio" name="Short" id="MultipleC">
              </li>
             <li>
                 <label for="Single"> 
                    Single Correct 
                </label> 
-               <input type="checkbox" name="Short" id="Single">
+               <input type="radio" name="Short" id="Single">
              </li>
-            <li>
-                <label for="Switch">
- Switch
-               </label> 
-               <input type="checkbox" name="Short" id="Switch">
-             </li>
+          
             <li>
                 <label for="Date">
  Date
                </label> 
-               <input type="checkbox" name="Short" id="Date">
+               <input type="radio" name="Short" id="Date">
              </li>
+          
            
  
            </ul>
@@ -102,11 +219,27 @@ box-shadow: grey 3px 3px 3px;
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
+          <button class="btn btn-warning" style="width: 20%;" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Back</button>
+          <button class="btn btn-info" id="Add_data" style="width: 20%;"data-bs-dismiss="modal" aria-label="Close">Add</button>
         </div>
       </div>
     </div>
   </div>
+
+  {% comment %}  {% endcomment %}
+  <div class="row">
+    <div class="col-md-12">
+      <div id="Foorm" style="width: 100%;">
+
+
+      </div>
+
+      
+      <a class="btn btn-primary m-4" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Add question</a>
+        </div>
+      </div>
+
+      
 
 
 <script>
@@ -121,8 +254,7 @@ $("input:checkbox").on('click', function() {
     // the name of the box is retrieved using the .attr() method
     // as it is assumed and expected to be immutable
     var group = "input:checkbox[name='" + $box.attr("name") + "']";
-    // the checked state of the group/box on the other hand will change
-    // and the current value is retrieved using .prop() method
+ 
     $(group).prop("checked", false);
     $box.prop("checked", true);
   } else {
@@ -130,9 +262,112 @@ $("input:checkbox").on('click', function() {
   }
 });
 
-
+var i =0;
+var QsnStr = "";
+var multiple= false;
+var single= false;
 document.getElementById('Enter_qsn').addEventListener('click',()=>{
+  
   if (document.getElementById('Short').checked) {
+    
+    document.getElementById('data').innerHTML =  ` <label for="name">Enter Question:</label>
+    <input type="text" id="name" name="Short Qsn">
+    `
+   
+
+    
+  }
+  else if (document.getElementById('long').checked) {
+    document.getElementById('data').innerHTML =  ` <label for="name">Enter Question:</label>
+    <input type="text" id="name" name="Short Qsn">
+   `
+
+    
+  }
+  else if (document.getElementById('MultipleC').checked) {
+    multiple =true
+
+    document.getElementById('data').innerHTML =  ` <label for="name">Enter Question:</label>
+    <input type="text" id="name" name="Short Qsn">
+    <hr>
+    <div id="options">
+   
+    </div>
+
+    <button class="btn btn-danger" id="Add_options"  onclick="addop()"  type="button" style="width: 30%"; >Add options</button>
+
+    `
+
+   
+   
+  }
+
+    else if (document.getElementById('Single').checked) {
+      single = true
+      document.getElementById('data').innerHTML =  ` <label for="name">Enter Question:</label>
+    <input type="text" id="name" name="Short Qsn">
+    <hr>
+    <div id="options">
+   
+    </div>
+
+    <button class="btn btn-danger" id="Add_options"  onclick="addopS()"  type="button" style="width: 30%"; >Add options</button>
+
+    `
+
+   
+
+    
+  }
+
+  else if (document.getElementById('Date').checked) {
+    document.getElementById('data').innerHTML =  `     <label for="name">Enter Question:</label>
+    <input type="text" id="name" name="Short Qsn">
+
+
+    `
+
+    
+  }
+
+
+})
+
+
+var multiple_option_nos=0;
+function addop(){
+multiple_option_nos = multiple_option_nos+1;
+  let start= document.getElementById('options').innerHTML  
+  let mid =` <label for="name">option ${multiple_option_nos}</label>
+  <input type="text" id="name" name="Short Qsn">`
+  
+  document.getElementById('options').innerHTML = start + mid
+  
+  console.log('k');
+}
+
+var single_option_nos=0;
+function addopS(){
+single_option_nos = single_option_nos+1;
+  let start= document.getElementById('options').innerHTML  
+  let mid =` <label for="name">option ${single_option_nos}</label>
+  <input type="text" id="name" name="Short Qsn">`
+  
+  document.getElementById('options').innerHTML = start + mid
+  
+  console.log('k');
+}
+  
+
+var QsnArr =[]
+
+
+document.getElementById('Add_data').addEventListener('click',()=>{
+  
+  if (document.getElementById('Short').checked) {
+   
+          
+
    
 
     
@@ -142,6 +377,28 @@ document.getElementById('Enter_qsn').addEventListener('click',()=>{
 
     
   }
+  else if (document.getElementById('MultipleC').checked) {
+   
+
+    
+  }
+    else if (document.getElementById('Single').checked) {
+   
+
+    
+  }
+
+  else if (document.getElementById('Date').checked) {
+   
+
+    
+  }
+  else if (document.getElementById('Email').checked) {
+   
+
+    
+  }
+
 })
 
 </script>

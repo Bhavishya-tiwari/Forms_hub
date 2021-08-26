@@ -13,7 +13,9 @@ def createform(request):
     if(request.user.is_authenticated):
         return render(request, 'E_Form_app/createform.html')
     else:
-        return redirect("Home")
+        # return redirect("Home")
+        return render(request, 'E_Form_app/createform.html')
+
 
 
 

@@ -12,7 +12,7 @@ class Forms(models.Model):
     Qsns=models.TextField( default="")
     Correct_Ans=models.TextField( default="")
     ResponseJson=models.TextField( default="")
-    Extras=models.TextField( default="")
+    Extra_info=models.TextField( default="")
     Extras=models.TextField( default="")
     def __str__(self):
         return self.fno +": "+ self.Name + " by " +self.Form_Title
