@@ -21,14 +21,7 @@ class Forms(models.Model):
         
 
 
-class Res(models.Model):
-    idd=models.CharField(max_length=700)
-    ResponseJson=models.TextField( default="")
-    Extras=models.TextField( default="")
-    Extras=models.TextField( default="")
-    Extras=models.TextField( default="")
-    def __str__(self):
-        return str(self.id) 
+
         
 
 

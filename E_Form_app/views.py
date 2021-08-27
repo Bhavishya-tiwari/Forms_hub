@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, HttpResponse, redirect
 import json
 from datetime import datetime
-from .models import Forms,Res
+from .models import Forms
 # Create your views here.
 # Forms.objects.all().delete()
 # Res.objects.all().delete()
@@ -162,11 +162,21 @@ def givedata(request, ii):
         "cd":post.cd,
         "ct":post.ct,
         "Q":qsns,
+        "Qr":p,
+        "id":ii,
         
         
 
     }
     return HttpResponse(json.dumps(o))
+
+def saveresponse(request, res):
+    if request.method=="POST":
+        A = request.POST.get('Aa', '')
+
+        return HttpResponse(A)
+
+    
 
 def hlogout(request):
     

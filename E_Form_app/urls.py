@@ -8,6 +8,7 @@ urlpatterns = [
     path('createformdata', views.createformdata, name='createformdata'),
     path('previewform', views.previewform, name='previewform'),
     path('givedata/<int:ii>', views.givedata, name='givedata'),
+    path('saveresponse/<int:res>', views.saveresponse, name='saveresponse'),
     path('FormHub/<str:admin>/<int:id>', views.fillform, name='fillform'),
     path('logout', views.hlogout, name='logout'),
     

@@ -191,7 +191,7 @@ label.light {
 
         {% for u in q.opt %}
         
-          <input type="checkbox" id="M{{q.Qno}}{{forloop.counter}}" value="interest_development" name="user_interest"><label class="light" for="development">{{u}} </label><br>
+          <input type="checkbox" id="M{{q.Qno}}{{forloop.counter}}" value="" onclick="if(this.checked) {this.value='on'; }"  name="user_interest"><label class="light" for="development">{{u}} </label><br>
         {% endfor %}
     </div>
           
@@ -204,7 +204,7 @@ label.light {
   <div id="id{{q.Qno}}">
         {% for u in q.opt %}
         
-          <input type="radio" id="S{{q.Qno}}{{forloop.counter}}" value="interest_development" name="user_interest"><label class="light" for="development">{{u}} </label><br>
+          <input type="radio" id="S{{q.Qno}}{{forloop.counter}}"value="j" onclick="if(this.checked) {this.value='on'; }" name="user_interest"><label class="light" for="development">{{u}} </label><br>
         {% endfor %}
         </div>
 
@@ -218,7 +218,10 @@ label.light {
 {% endif %}
 {% endfor %} </div>
 <div id="bb">
-<button class="custom-btn btn-3" onclick="sumbit()"><span>Submit</span></button></div>
+  <form id="jsform" style="background-color: transparent; position: relative;left: 0vw;" action="#">
+{% csrf_token %}
+<button class="custom-btn btn-3" onclick="sumbit()" type="submit"><span>Submit</span></button></div>
+  </form>
 
 </div>
 
@@ -227,7 +230,6 @@ label.light {
 
 <script type="text/javascript"> 
 id = '{{Qs.id}}'
-console.log(id);
 var f;
 fetch(`/givedata/${id}`)
             .then(response => response.json())
@@ -236,37 +238,162 @@ fetch(`/givedata/${id}`)
 
             })
 function sumbit(){
-    var aD=""
-    console.log("j");
+    var aD=[]
     f["Q"].forEach(e => {
-        // console.log(e);
         if(e["Type"] == "Short"){
         
            let a = document.getElementById(`id${e["Qno"]}`).value
-           console.log(a);
+           o = {
+             "T":"S",
+             "Qn":e["Qno"],
+             "A":a
+           }
+           aD.push(o)
+
         }
         else if(e["Type"] == "Long"){
         
            let a = document.getElementById(`id${e["Qno"]}`).value
-           console.log(a);
+           o = {
+             "T":"L",
+             "Qn":e["Qno"],
+             "A":a
+           }
+           aD.push(o)
         }
         else if(e["Type"] == "Email"){
         
            let a = document.getElementById(`id${e["Qno"]}`).value
-           console.log(a);
+           o = {
+             "T":"E",
+             "Qn":e["Qno"],
+             "A":a
+           }
+           aD.push(o)
         }
         else if(e["Type"] == "MultipleC"){
             let ob = ""
-            console.log(e["opt"].length);
+          ll =e["opt"].length
+            so = []
+            son =[]
+          for(i = 1; i<ll+1; i++ ){
+           let a = document.getElementById(`M${e["Qno"]}${i}`).value
+           if(document.getElementById(`M${e["Qno"]}${i}`).value == 'on'){
+             so.push(e["opt"][i-1])
+             son.push(i)
+           }
+           
+
+          }
+          o = {
+               "T":"M",
+               "Qn":e["Qno"],
+               "A":so,
+               "An":son
+
+
+             }
+             aD.push(o)
+
+
             
-           let a = document.getElementById(`id${e["Qno"]}`).value
-           console.log(a);
         }
+        else if(e["Type"] == "SingleC"){
+            let ob = ""
+          ll =e["opt"].length
+            
+          for(i = 1; i<ll+1; i++ ){
+           let a = document.getElementById(`S${e["Qno"]}${i}`).value
+           
+           if(document.getElementById(`S${e["Qno"]}${i}`).value == 'on'){
+             o = {
+               "T":"sing",
+               "Qn":e["Qno"],
+               "A":e["opt"][i-1],
+               "An":i
+
+
+             }
+             aD.push(o)
+           }
+           else{
+            o = {
+               "T":"sing",
+               "Qn":e["Qno"],
+               "A":"",
+               "An":""
+
+
+             }
+             
+            }
+            
+            
+          }
+          aD.push(o)
+       
+        }
+        else if(e["Type"] == "Date"){
+        
+        let a = document.getElementById(`id${e["Qno"]}`).value
+        o = {
+          "T":"D",
+          "Qn":e["Qno"],
+          "A":a
+        }
+        aD.push(o)
+     }
+       
+            
+
         
     });
+
+    $('#jsform').submit(function (event) {
+  var ooo= {
+    "A":aD,
+  }
+
+      
+
+
+    
+    formDat ={
+      "Aa":JSON.stringify(ooo),
+
+      'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+
+
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: `/saveresponse/${f["id"]}`,
+        data: formDat,
+        encode: true
+    })
+        .done(function (data) {
+          console.log(data);
+
+
+          
+           
+                
+
+
+        });
+
+    event.preventDefault();
+
+      })
+
+    
+
+
    
     
 }
+
 
 
 
