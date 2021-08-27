@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% block title %}Fill Form{% endblock title %}
+{% block css %}
+<style>
+
+   /*  */
+   *, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: #384047;
+}
+
+form {
+  max-width: 300px;
+  /* z-index: -1; */
+  margin:auto;
+  position: relative;
+  top: 6vh;
+  left: 15vw;
+  /* justify-content: center; */
+  padding: 10px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+}
+
+h1 {
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+textarea,
+select {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 7px;
+  width: 100%;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  margin-bottom: 3px;
+}
+.render{
+  min-height: 20vh;
+  max-height: 90vh;
+  overflow-y: scroll;
+  background-color: rgb(226, 255, 253);
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0 4px 8px 0;
+}
+
+select {
+  padding: 6px;
+  height: 32px;
+  border-radius: 2px;
+}
+
+
+
+fieldset {
+  margin-bottom: 30px;
+  border: none;
+}
+
+legend {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+/* 
+label {
+  display: block;
+  margin-bottom: 8px;
+} */
+
+label.light {
+  font-weight: 300;
+  display: inline;
+}
+
+.number {
+  background-color: #5fcf80;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  font-size: 0.8em;
+  margin-right: 4px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+  border-radius: 100%;
+}
+.formm{
+    width: 80vw;
+    margin: auto;
+
+    min-height: 20vh;
+    max-height: 80vh;
+    overflow-y: scroll;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: solid grey 2px;
+
+    padding: 17px;
+}
+.ff{
+    position: relative;
+    top: 6vh;
+    margin-top: 10px;
+    margin-bottom: 300px;
+}
+
+.submitt{
+    padding: 3px;
+    width: 200px;
+}
+#bb{
+    width: 10px;
+    margin: auto;position: relative;
+    left: -5vw;
+}
+.title{
+    margin: auto;
+}
+
+</style>
+
+{% endblock css %}
+{% block body %}
+ 
+
+   <!-- <button class="custom-btn btn-1">Read More</button>
+   <button class="custom-btn btn-2">Read More</button>
+   <button class="custom-btn btn-3"><span>Read More</span></button>
+   <button class="custom-btn btn-4"><span>Read More</span></button>
+   <button class="custom-btn btn-5"><span>Read More</span></button>
+   <button class="custom-btn btn-6"><span>Read More</span></button>
+   <button class="custom-btn btn-7"><span>Read More</span></button>
+   <button class="custom-btn btn-8"><span>Read More</span></button>
+   <button class="custom-btn btn-9">Read More</button>
+   <button class="custom-btn btn-10">Read More</button>
+   <button class="custom-btn btn-11">Read More<div class="dot"></div></button>
+   <button class="custom-btn btn-12"><span>Click!</span><span>Read More</span></button>
+   <button class="custom-btn btn-13">Read More</button>
+   <button class="custom-btn btn-14">Read More</button>
+   <button class="custom-btn btn-15">Read More</button> -->
+  
+ 
+<div class="ff">
+<h2 class="title">Title :- {{Qs.T}}</h1>
+<h4 class="title" style="margin-bottom: 20px;">Form Discription :- {{Qs.D}}</h4>
+    <div class="formm">
+    
+ {% for q in Qs.Q %}
+{% if q.Type == "Short" %}
+<label for="name">{{q.Qno}}:- {{q.Q}} :</label>
+  <input type="text" id="id{{q.Qno}}" name="user_name">
+{% elif q.Type == "Long" %}
+<hr>
+ <label for="bio">{{q.Qno}}:- {{q.Q}} :</label>
+  <textarea id="id{{q.Qno}}" name="user_bio"></textarea>
+{% elif q.Type == "Email" %}
+<hr>
+  <label for="email">{{q.Qno}}:- {{q.Q}} :</label>
+  <input type="email" id="id{{q.Qno}}" name="user_email">
+{% elif q.Type == "MultipleC" %}
+<hr>
+  <label>{{q.Qno}}:- {{q.Q}} :</label>
+  <br>
+  <div id="id{{q.Qno}}">
+
+        {% for u in q.opt %}
+        
+          <input type="checkbox" id="M{{q.Qno}}{{forloop.counter}}" value="interest_development" name="user_interest"><label class="light" for="development">{{u}} </label><br>
+        {% endfor %}
+    </div>
+          
+
+{% elif q.Type == "SingleC" %}
+
+<hr>
+  <label>{{q.Qno}}:- {{q.Q}} :</label>
+  <br>
+  <div id="id{{q.Qno}}">
+        {% for u in q.opt %}
+        
+          <input type="radio" id="S{{q.Qno}}{{forloop.counter}}" value="interest_development" name="user_interest"><label class="light" for="development">{{u}} </label><br>
+        {% endfor %}
+        </div>
+
+
+
+{% elif q.Type == "Date" %}
+<hr>
+
+<label for="name">{{q.Qno}}:- {{q.Q}} :</label>
+  <input type="date" id="id{{q.Qno}}" name="user_name">
+{% endif %}
+{% endfor %} </div>
+<div id="bb">
+<button class="custom-btn btn-3" onclick="sumbit()"><span>Submit</span></button></div>
+
+</div>
+
+{% comment %} {{Qs}} {% endcomment %}
+
+
+<script type="text/javascript"> 
+id = '{{Qs.id}}'
+console.log(id);
+var f;
+fetch(`/givedata/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                f = data
+
+            })
+function sumbit(){
+    var aD=""
+    console.log("j");
+    f["Q"].forEach(e => {
+        // console.log(e);
+        if(e["Type"] == "Short"){
+        
+           let a = document.getElementById(`id${e["Qno"]}`).value
+           console.log(a);
+        }
+        else if(e["Type"] == "Long"){
+        
+           let a = document.getElementById(`id${e["Qno"]}`).value
+           console.log(a);
+        }
+        else if(e["Type"] == "Email"){
+        
+           let a = document.getElementById(`id${e["Qno"]}`).value
+           console.log(a);
+        }
+        else if(e["Type"] == "MultipleC"){
+            let ob = ""
+            console.log(e["opt"].length);
+            
+           let a = document.getElementById(`id${e["Qno"]}`).value
+           console.log(a);
+        }
+        
+    });
+   
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+     
+
+        
+
+
+
+
+
+
+
+{% endblock body %}
