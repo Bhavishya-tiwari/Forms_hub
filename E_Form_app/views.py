@@ -67,8 +67,8 @@ def createformdata(request):
               )
             fm.save()
             
-            rs = Res(idd = fm.fno )
-            rs.save()
+            # rs = Res(idd = fm.fno )
+            # rs.save()
             sno = str(fm.fno) 
             lik = "http://127.0.0.1:8000/"+"FormHub/" +  request.user.username +"/" +sno  
             return HttpResponse(lik)
@@ -172,7 +172,15 @@ def givedata(request, ii):
 
 def saveresponse(request, res):
     if request.method=="POST":
+        post = Forms.objects.filter(fno=res).first()
+        prv = post.Responses
         A = request.POST.get('Aa', '')
+        
+        
+
+
+
+
 
         return HttpResponse(A)
 

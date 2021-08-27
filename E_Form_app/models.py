@@ -14,6 +14,7 @@ class Forms(models.Model):
     ct=models.CharField(max_length=550)
     cd=models.CharField(max_length=550)
     Qsns=models.TextField( default="")
+    Responses=models.TextField( default="")
     Correct_Ans=models.TextField( default="")
     Extras=models.TextField( default="")
     def __str__(self):
