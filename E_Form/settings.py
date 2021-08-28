@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from .secrett import *
 
 from pathlib import Path
+
 import os
+from django.contrib.messages import constants as messages
+
 import environ
 env = environ.Env(
     # set casting, default value
@@ -161,7 +164,9 @@ SOCIALACCOUNT_PROVIDERS = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+MESSAGE_TAGS = {
+    messages.ERROR:'danger'
+}
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'

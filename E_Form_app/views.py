@@ -4,7 +4,9 @@ from django.contrib.auth import authenticate,  login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, HttpResponse, redirect
 import json
+import datetime 
 from datetime import date, datetime
+from django.contrib import messages
 from .models import Forms
 
 # Create your views here.
@@ -17,6 +19,10 @@ def v(s):
         return True
     else:
         return False
+def g(d):
+    return int(d)    
+def aa(s, d):
+    return list(str(s).split(d)) 
 
 
 def Home(request):
@@ -68,47 +74,74 @@ def createformdata(request):
             sno = str(fm.fno)
             lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + sno
             return HttpResponse(lik)
+            
         except:
-            print("F")
+            
             return HttpResponse("jj")
 
 
 def fillform(request, admin, id):
-    post = Forms.objects.filter(fno=id).first()
-    if post.Admin_Username == admin:
+    try:
+            
+        post = Forms.objects.filter(fno=id).first()
+        
+        if post.Admin_Username == admin:
+            tim = list(str(datetime.now().strftime("%H:%M:%S")).split(":"))
+            dat = list(str(date.today().strftime("%d/%m/%Y")).split("/"))
+            tod = datetime(g(dat[2]), g(dat[1]), g(dat[0]),int(tim[0]), int(tim[1]),int(tim[2]))
 
-        p = post.Qsns
-        q = list(p.split("$"))[:-1]
-        qsns = []
-        for qs in q:
-            r = qs.replace("'", '"')
-            l = json.loads(r)
-            qsns.append(l)
+            sd = aa( post.sd,"-")
+            st = aa(post.st, ":")
+            cd = aa( post.cd,"-")
+            ct = aa(post.ct, ":")
 
-            if l["Type"] == "MultipleC" or l["Type"] == "SingleC":
-                ll = list(l["opt"].split('&'))[:-1]
-                l["opt"] = ll
+            sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11 )
+            end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
+            if tod < end and tod > sta :
+            
 
-        # print(qsns)
-        o = {
-            "An": post.Admin_Name,
-            "Ae": post.Admin_Email,
-            "T": post.Form_Title,
-            "D": post.Disc,
-            "sd": post.sd,
-            "st": post.st,
-            "cd": post.cd,
-            "ct": post.ct,
-            "Q": qsns,
-            "id": id
-        }
-        return render(request, 'E_Form_app/filllform.html', {"Qs": o})
+                p = post.Qsns
+                q = list(p.split("$"))[:-1]
+                qsns = []
+                for qs in q:
+                    r = qs.replace("'", '"')
+                    l = json.loads(r)
+                    qsns.append(l)
+
+                    if l["Type"] == "MultipleC" or l["Type"] == "SingleC":
+                        ll = list(l["opt"].split('&'))[:-1]
+                        l["opt"] = ll
+
+                # print(qsns)
+                o = {
+                    "An": post.Admin_Name,
+                    "Ae": post.Admin_Email,
+                    "T": post.Form_Title,
+                    "D": post.Disc,
+                    "sd": post.sd,
+                    "st": post.st,
+                    "cd": post.cd,
+                    "ct": post.ct,
+                    "Q": qsns,
+                    "id": id
+                }
+                return render(request, 'E_Form_app/filllform.html', {"Qs": o})
+            else:
+                return render(request, 'E_Form_app/late.html', {"E":"opps" , "st":sta, "end":end})
+        else:
+            messages.error(request, "Error")
+            return redirect("Home")
+    except:
+        messages.error(request, "Error")
+        return redirect("Home")
+            
 
 
 def createform(request):
     if(request.user.is_authenticated):
         return render(request, 'E_Form_app/createform.html')
     else:
+        messages.error(request, "Please login to create form")
         return redirect("Home")
 
 
@@ -128,10 +161,10 @@ def myforms(request):
             "id":p.fno,
         }
         o.append(oo)
+    return render(request, 'E_Form_app/myforms.html',{"f":o})
     
             
 
-    return render(request, 'E_Form_app/myforms.html',{"f":o})
 
 
 
@@ -180,57 +213,53 @@ def givedata(request, ii):
 def saveresponse(request, res):
     if request.method == "POST":
         if(request.user.is_authenticated):
-
             post = Forms.objects.filter(fno=res).first()
 
-            t = datetime.now()
-            print(t.strftime("%H:%M:%S"))
-            today = date.today()
+            tim = list(str(datetime.now().strftime("%H:%M:%S")).split(":"))
+            dat = list(str(date.today().strftime("%d/%m/%Y")).split("/"))
+            tod = datetime(g(dat[2]), g(dat[1]), g(dat[0]),int(tim[0]), int(tim[1]),int(tim[2]))
 
-            # dd/mm/YY
-            d1 = today.strftime("%d/%m/%Y")
-            print("d1 =", d1)
+            sd = aa( post.sd,"-")
+            st = aa(post.st, ":")
+            cd = aa( post.cd,"-")
+            ct = aa(post.ct, ":")
 
-            tod = ''
-            st = ''
-            ed = ''
-            
+            sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11 )
+            end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
 
-
-
+            if tod < end and tod > sta :
 
 
 
 
+                prv = post.Responses
+                A = request.POST.get('Aa', '')
+                r = ''
+                A = json.loads(A)
+                for a in A["A"]:
+                    if a["T"] == "M":
+                        As = ''
+                        for o in a["A"]:
+                            As = As + str(o)+"!"
+                        a["A"] = As
+                        r = r + str(a) + "#"
 
+                    else:
+                        r = r + str(a) + '#'
+                
+                d = {
+                    "name": request.user.first_name + " " + request.user.last_name,
+                    "username": request.user.username,
+                    "email": request.user.email,
+                    "time": tod,
+                }
+                r = r + str(d)+'#'
+                post.Responses = post.Responses + r + "%"
+                # post.save()
+                return HttpResponse("Done")
+            else:
+                return HttpResponse("LorE")
 
-
-            prv = post.Responses
-            A = request.POST.get('Aa', '')
-            r = ''
-            A = json.loads(A)
-            for a in A["A"]:
-                if a["T"] == "M":
-                    As = ''
-                    for o in a["A"]:
-                        As = As + str(o)+"!"
-                    a["A"] = As
-                    r = r + str(a) + "#"
-
-                else:
-                    r = r + str(a) + '#'
-            
-            d = {
-                "name": request.user.first_name + " " + request.user.last_name,
-                "username": request.user.username,
-                "email": request.user.email,
-                "time": str(datetime.now())
-            }
-            r = r + str(d)+'#'
-            post.Responses = post.Responses + r + "%"
-            # print(post.Responses)
-
-            return HttpResponse("Done")
 
 
 def hlogout(request):
