@@ -4,3 +4,5 @@ print(o)
 
 k = json.loads(o)
 print(k)
+import datetime
+print(datetime.datetime.now())

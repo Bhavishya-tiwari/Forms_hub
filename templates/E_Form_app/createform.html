@@ -67,8 +67,23 @@ select {
   max-height: 90vh;
   overflow-y: scroll;
   background-color: rgb(226, 255, 253);
+
+}
+.render::-webkit-scrollbar-track
+{
+	background-color: transparent;
 }
 
+.render::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: transparent;
+}
+
+.render::-webkit-scrollbar-thumb
+{
+	background-color: #692929;	
+}
 input[type="radio"],
 input[type="checkbox"] {
   margin: 0 4px 8px 0;
@@ -429,59 +444,130 @@ document.getElementById('Enter_qsn').addEventListener('click',()=>{
 
 var multiple_option_nos=0;
 function addop(){
+if(multiple_option_nos > 0)
+{
+  kk = document.getElementById(`mult${multiple_option_nos}`).value
 
-multiple_option_nos = multiple_option_nos+1;
-  // let start= document.getElementById('options').innerHTML  
-  // let mid =` 
-  //    <label=for="name">option ${multiple_option_nos}</label>
-  // <input type="text" id="mult${multiple_option_nos}" name="Short Qsn">`
-  
-  // document.getElementById('options').innerHTML = start
-  
-  var lable = document.createElement("lable");
-  var input = document.createElement("input");
+  if(kk == ""){
+
+  }
+  else{
+    multiple_option_nos = multiple_option_nos+1;
+
+var lable = document.createElement("lable");
+var input = document.createElement("input");
+var f = document.createAttribute("for");
+lable.innerHTML = `option ${multiple_option_nos}`;
+document.getElementById("options").appendChild(lable);
+var t = document.createAttribute("type");
+t.value = "text"
+input.setAttributeNode(t);
+var ii = document.createAttribute("id");
+ii.value =`mult${multiple_option_nos}`
+input.setAttributeNode(ii);
+document.getElementById("options").appendChild(input);
+
+
+
+  }
+}
+else if(multiple_option_nos == 0){
+
+  if(document.getElementById("Multiple_qsn").value != ""){
+
+    multiple_option_nos = multiple_option_nos+1;
+    
+    var lable = document.createElement("lable");
+    var input = document.createElement("input");
   var f = document.createAttribute("for");
   lable.innerHTML = `option ${multiple_option_nos}`;
   document.getElementById("options").appendChild(lable);
-
-
-  
   var t = document.createAttribute("type");
   t.value = "text"
   input.setAttributeNode(t);
-
   var ii = document.createAttribute("id");
   ii.value =`mult${multiple_option_nos}`
   input.setAttributeNode(ii);
-
   document.getElementById("options").appendChild(input);
+}
+else{
 
-
-  console.log('k');
+}
 }
 
-var single_option_nos=0;
-function addopS(){
-  single_option_nos = single_option_nos+1;
+}
 
-  var lable = document.createElement("lable");
-  var input = document.createElement("input");
-  var f = document.createAttribute("for");
-  lable.innerHTML = `option ${single_option_nos}`;
-  document.getElementById("options").appendChild(lable);
 
 
   
-  var t = document.createAttribute("type");
-  t.value = "text"
-  input.setAttributeNode(t);
 
-  var ii = document.createAttribute("id");
-  ii.value =`sing${single_option_nos}`
-  input.setAttributeNode(ii);
 
-  document.getElementById("options").appendChild(input);
 
+
+
+
+var single_option_nos=0;
+function addopS(){
+  if(single_option_nos > 0){
+  kk = document.getElementById(`sing${single_option_nos}`).value
+  if(kk == ""){
+
+  }
+  else{
+    single_option_nos = single_option_nos+1;
+
+var lable = document.createElement("lable");
+var input = document.createElement("input");
+var f = document.createAttribute("for");
+lable.innerHTML = `option ${single_option_nos}`;
+document.getElementById("options").appendChild(lable);
+
+
+
+var t = document.createAttribute("type");
+t.value = "text"
+input.setAttributeNode(t);
+
+var ii = document.createAttribute("id");
+ii.value =`sing${single_option_nos}`
+input.setAttributeNode(ii);
+
+document.getElementById("options").appendChild(input);
+
+  }
+
+
+  }
+  else if(single_option_nos == 0){
+  if(document.getElementById("Singlee_qsn").value != ""){
+    single_option_nos = single_option_nos+1;
+
+var lable = document.createElement("lable");
+var input = document.createElement("input");
+var f = document.createAttribute("for");
+lable.innerHTML = `option ${single_option_nos}`;
+document.getElementById("options").appendChild(lable);
+
+
+
+var t = document.createAttribute("type");
+t.value = "text"
+input.setAttributeNode(t);
+
+var ii = document.createAttribute("id");
+ii.value =`sing${single_option_nos}`
+input.setAttributeNode(ii);
+
+document.getElementById("options").appendChild(input);
+
+
+
+  }
+
+
+  }
+
+ 
 
 
 }
@@ -494,7 +580,8 @@ var QsnRender ="";
 var Qsnnumber = 0;
 document.getElementById('Add_data').addEventListener('click',()=>{
   
-  if (document.getElementById('Short').checked) {
+  if (document.getElementById('Short').checked && document.getElementById('Short_qsn').value != "") {
+
     Qsnnumber = Qsnnumber+1;
     let o = {
       "Type":"Short",
@@ -502,18 +589,20 @@ document.getElementById('Add_data').addEventListener('click',()=>{
       "Q":document.getElementById('Short_qsn').value,
 
     }
-     QsnArr.push(o)
-   QsnRender = QsnRender + `Qsn: ${Qsnnumber} :- <label for="name">${document.getElementById('Short_qsn').value}</label>
-    <input type="text" id="name" name="Short Qsn"> <hr>`
 
-    document.getElementById('render').innerHTML = QsnRender
+      
+      QsnArr.push(o)
+      QsnRender = QsnRender + `Qsn: ${Qsnnumber} :- <label for="name">${document.getElementById('Short_qsn').value}</label>
+      <input type="text" id="name" name="Short Qsn"> <hr>`
+      
+      document.getElementById('render').innerHTML = QsnRender
   }
           
 
    
 
     
-  else if (document.getElementById('long').checked) {
+  else if (document.getElementById('long').checked && document.getElementById('long_qsn').value != "") {
     Qsnnumber = Qsnnumber+1;
     let o = {
       "Type":"Long",
@@ -521,7 +610,7 @@ document.getElementById('Add_data').addEventListener('click',()=>{
       "Q":document.getElementById('long_qsn').value,
     }
 
-  
+    
     QsnRender = QsnRender + `    Qsn: ${Qsnnumber} :-   <label for="bio">${document.getElementById('long_qsn').value}</label>
           <textarea id="bio" name="user_bio"></textarea> <hr>
         `
@@ -535,7 +624,8 @@ document.getElementById('Add_data').addEventListener('click',()=>{
 
     
   }
-  else if (document.getElementById('MultipleC').checked) {
+
+  else if (document.getElementById('MultipleC').checked && document.getElementById('Multiple_qsn').value && document.getElementById(`mult${multiple_option_nos}`).value != "") {
     Qsnnumber = Qsnnumber+1;
     let qsn = document.getElementById('Multiple_qsn').value;
 
@@ -555,16 +645,21 @@ document.getElementById('Add_data').addEventListener('click',()=>{
       "Q":document.getElementById('Multiple_qsn').value,
       "opt":optAr
     }
-    QsnArr.push(o)
 
+  kk = document.getElementById(`mult${multiple_option_nos}`).value
+
+    
+    
+    
+    QsnArr.push(o)
+    
     QsnRender = QsnRender + `Qsn: ${Qsnnumber} :-` + qsn + `<br>`+ opt + `<hr>`
     document.getElementById('render').innerHTML = QsnRender
 
 
-
     
   }
-    else if (document.getElementById('Single').checked) {
+    else if (document.getElementById('Single').checked && document.getElementById('Singlee_qsn').value != "" && document.getElementById(`sing${single_option_nos}`).value != "") {
       Qsnnumber = Qsnnumber+1;
     let qsn = document.getElementById('Singlee_qsn').value;
 
@@ -584,17 +679,22 @@ document.getElementById('Add_data').addEventListener('click',()=>{
       "Q":document.getElementById('Singlee_qsn').value,
       "opt":optAr
     }
-    QsnArr.push(o)
+    if(o.Q != ""){
+  kk = document.getElementById(`sing${single_option_nos}`).value
 
+    
+    
+    QsnArr.push(o)
+    
     QsnRender = QsnRender + `Qsn: ${Qsnnumber} :-` + qsn + `<br>`+ opt + `<hr>`
     document.getElementById('render').innerHTML = QsnRender
 
-   
+    }
 
     
   }
 
-  else if (document.getElementById('Date').checked) {
+  else if (document.getElementById('Date').checked && document.getElementById('date_qsn').value != "") {
     Qsnnumber = Qsnnumber+1;
     let o = {
       "Type":"Date",
@@ -602,12 +702,12 @@ document.getElementById('Add_data').addEventListener('click',()=>{
       "Q":document.getElementById('date_qsn').value,
 
     }
+
      QsnArr.push(o)
    QsnRender = QsnRender + `Qsn: ${Qsnnumber} :- <label for="name">${document.getElementById('date_qsn').value}</label>
     <input type="date" id="name" name="Short Qsn"> <hr>`
 
     document.getElementById('render').innerHTML = QsnRender
-    
 
    
 
@@ -621,13 +721,15 @@ document.getElementById('Add_data').addEventListener('click',()=>{
       "Q":document.getElementById('email').value,
 
     }
+    if(o.Q != ""){
+
      QsnArr.push(o)
    QsnRender = QsnRender + `Qsn: ${Qsnnumber} :- <label for="name">${document.getElementById('emaill').value}</label>
     <input type="email" id="name" name="Short Qsn"> <hr>`
 
     document.getElementById('render').innerHTML = QsnRender
 
-   
+    }
 
     
   }
@@ -636,6 +738,7 @@ document.getElementById('Add_data').addEventListener('click',()=>{
 // ******************Sending data*******************
 var link = ""
 $('#Send_Data').submit(function (event) {
+
   var oo= {
     "Title":document.getElementById('title').value,
       "Disc":document.getElementById('discc').value,
@@ -647,38 +750,48 @@ $('#Send_Data').submit(function (event) {
       
 
   }
-    var formData = {
+  var ttt = document.getElementById('title').value
+  var ddd = document.getElementById('discc').value
+
+    if(oo.st == "" || oo.sd == "" ||oo.ct == "" ||oo.cd == ""||ttt == ""||ddd == ""){
+
+    }
+    else{
+
+      
+      var formData = {
       "Qsns":JSON.stringify(oo),
-     
+      
 
-        
-
+      
+      
         'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-    };
-    $.ajax({
+      };
+      $.ajax({
         type: 'POST',
         url: '/createformdata',
         data: formData,
         encode: true
     })
-        .done(function (data) {
+    .done(function (data) {
           document.getElementById('linkk').style.display="block"
-          console.log(data);
           document.getElementById('link').innerHTML = `<input type="text" value="${data}" id="myInput">`;
-        
-
-
+          
+          
+          
           
            
-                
+          
 
-
+          
         });
-    event.preventDefault();
-})
+      }
+      event.preventDefault();
 
-
-
+      })
+      
+      
+      
 function myFunction() {
   /* Get the text field */
   var copyText = document.getElementById("myInput");

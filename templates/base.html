@@ -120,6 +120,27 @@ section{
   z-index: 359;
   /* height: calc(100vh - 80px); */
 }
+
+
+
+#style-8::-webkit-scrollbar-track
+{
+	background-color: transparent;
+}
+
+#style-8::-webkit-scrollbar
+{
+	width: 10px;
+	background-color: transparent;
+}
+
+#style-8::-webkit-scrollbar-thumb
+{
+	background-color: #692929;	
+}
+
+
+
       </style>
     {% load static %}
     <link rel="stylesheet" href="{% static 'base.css' %}">
@@ -146,10 +167,12 @@ section{
         {% load socialaccount %}
         {% if user.is_authenticated %}
         <li><a href="logout">Logout</a></li>
+        <li><a href="/myforms">My Forms</a></li>
         <li><a > {{ user.first_name }}</a></li>
     
 
       {% else %}
+
         <li><a href="{% provider_login_url 'google' %}">Login</a></li>
       {% endif %}
 
