@@ -30,11 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=d+uq%#5wj*k)q3@#0f0#b1%e$lm1v%)+=7q)ikw567s(gpfmc'
+SECRET_KEY ='django-insecure-=d+uq%#5wj*k)q3@#0f0#b1%e$lm1v%)+=7q)ikw567s(gpfmc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1:8000','form-hub.herokuapp.com']
 
 
@@ -43,15 +42,16 @@ ALLOWED_HOSTS = ['127.0.0.1:8000','form-hub.herokuapp.com']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-   'allauth',
    'django.contrib.sites',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+    
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+   'allauth',
+   'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'E_Form_app',
 
 ]
@@ -119,9 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = "/blog/media/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "med")
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # MEDIA_URL = "/blog/media/"
