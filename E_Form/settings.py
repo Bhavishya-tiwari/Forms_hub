@@ -15,6 +15,7 @@ from .secrett import *
 from pathlib import Path
 
 import os
+import django_heroku
 from django.contrib.messages import constants as messages
 
 import environ
@@ -40,7 +41,7 @@ SECRET_KEY = SECRET_KE
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -171,6 +172,9 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# Activate Django-Heroku.
+django_heroku.settings(locals())
 
 
