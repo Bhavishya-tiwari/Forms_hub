@@ -70,7 +70,8 @@ def createformdata(request):
             # rs = Res(idd = fm.fno )
             # rs.save()
             sno = str(fm.fno)
-            lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + sno
+            # lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + sno
+            lik = "https://form-hub.herokuapp.com/"+"FormHub/" + request.user.username + "/" + sno
             
             return HttpResponse(lik)
         except:
@@ -172,7 +173,8 @@ def myforms(request):
 def viewmyforms(request, fid):
     post = Forms.objects.filter(fno=fid).first()
     if request.user.username == post.Admin_Username:
-        lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + str(fid)
+        # lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + str(fid)
+        lik = "https://form-hub.herokuapp.com/"+"FormHub/" + request.user.username + "/" + str(fid)
         st = post.Responses
         re = aa(st, "%")[:-1]
         for r in re:
