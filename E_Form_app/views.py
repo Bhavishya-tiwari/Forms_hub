@@ -72,7 +72,8 @@ def createformdata(request):
             # rs = Res(idd = fm.fno )
             # rs.save()
             sno = str(fm.fno)
-            lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + sno
+            lik = "https://form-hub.herokuapp.com/"+"FormHub/" + request.user.username + "/" + sno
+            
             return HttpResponse(lik)
             
         except:
