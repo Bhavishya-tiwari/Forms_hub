@@ -17,6 +17,7 @@ class Forms(models.Model):
     Responses=models.TextField( default="")
     Correct_Ans=models.TextField( default="")
     Extras=models.TextField( default="")
+    form_type=models.TextField( default="")
     def __str__(self):
         return str(self.fno) +": "+ self.Admin_Name + " by " +self.Admin_Email
         

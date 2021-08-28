@@ -324,6 +324,11 @@ label.light {
               <input type="time" id="closetime" class="form-control" placeholder="Last name" aria-label="Last name">
             </div>
           </div>
+          <br>
+          <div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" value=""  onclick="if(this.checked) {this.value='on'; }" id="flexSwitchCheckChecked">
+  <label class="form-check-label" for="flexSwitchCheckChecked">Allow multiple submits by one email</label>
+</div>
           
         <button class="btn btn-danger m-4" style="width: 200px; margin: auto;position: relative;left: 6vw;" type="submit" >Create Form</button>
       </form>
@@ -738,6 +743,14 @@ document.getElementById('Add_data').addEventListener('click',()=>{
 // ******************Sending data*******************
 var link = ""
 $('#Send_Data').submit(function (event) {
+  tttt =document.getElementById('flexSwitchCheckChecked').value
+  if(tttt = "on"){
+    ty = "M"
+
+  }
+  else{
+    ty = "S"
+  }
 
   var oo= {
     "Title":document.getElementById('title').value,
@@ -746,6 +759,7 @@ $('#Send_Data').submit(function (event) {
       "sd":document.getElementById('startdate').value,
       "ct":document.getElementById('closetime').value,
       "cd":document.getElementById('closedate').value,
+      "Type":ty,
       "Qsns":QsnArr,
       
 
@@ -754,6 +768,7 @@ $('#Send_Data').submit(function (event) {
   var ddd = document.getElementById('discc').value
 
     if(oo.st == "" || oo.sd == "" ||oo.ct == "" ||oo.cd == ""||ttt == ""||ddd == ""){
+      event.preventDefault();
 
     }
     else{
@@ -785,10 +800,10 @@ $('#Send_Data').submit(function (event) {
 
           
         });
+        event.preventDefault();
       }
-      event.preventDefault();
-
-      })
+      
+    })
       
       
       

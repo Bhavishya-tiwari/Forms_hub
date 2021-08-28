@@ -45,7 +45,6 @@ def createformdata(request):
             # j = json.dumps(q)
             # s = q.toString()
             s = ''
-            print(type(q))
             for qs in q:
                 e = str(qs["Qno"])
                 qs["Qno"] = e
@@ -54,7 +53,6 @@ def createformdata(request):
                     opt_S = ''
                     for opt in qs["opt"]:
                         opt_S = opt_S + opt + '&'
-                    print(opt_S[:-1])
                     qs["opt"] = opt_S
 
                     s = s + str(qs) + '$'
@@ -64,7 +62,7 @@ def createformdata(request):
 
             fm = Forms(Form_Title=data['Title'], Disc=data["Disc"], Admin_Name=request.user.first_name + request.user.last_name, Admin_Email=request.user.email,
                        Admin_Username=request.user.username,
-                       Timestamp_Created=datetime.now(), sd=data["sd"], st=data["st"],  cd=data["cd"], ct=data["ct"],
+                       Timestamp_Created=datetime.now(), sd=data["sd"], st=data["st"],  cd=data["cd"], ct=data["ct"],form_type = data["Type"],
                        Qsns=s,
                        )
             fm.save()
@@ -75,10 +73,10 @@ def createformdata(request):
             lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + sno
             
             return HttpResponse(lik)
-            
         except:
-            
             return HttpResponse("jj")
+            
+            
 
 
 def fillform(request, admin, id):
@@ -96,7 +94,7 @@ def fillform(request, admin, id):
             cd = aa( post.cd,"-")
             ct = aa(post.ct, ":")
 
-            sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11 )
+            sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
             end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
             if tod < end and tod > sta :
             
@@ -113,7 +111,6 @@ def fillform(request, admin, id):
                         ll = list(l["opt"].split('&'))[:-1]
                         l["opt"] = ll
 
-                # print(qsns)
                 o = {
                     "An": post.Admin_Name,
                     "Ae": post.Admin_Email,
@@ -173,8 +170,21 @@ def myforms(request):
 
 
 def viewmyforms(request, fid):
+    post = Forms.objects.filter(fno=fid).first()
+    if request.user.username == post.Admin_Username:
+        lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + str(fid)
+        st = post.Responses
+        re = aa(st, "%")[:-1]
+        for r in re:
+            a = aa(r, "#")
+            print(a)
+        
+
+
+        
+
     
-    return render(request, 'E_Form_app/viewmyforms.html')
+        return render(request, 'E_Form_app/viewmyforms.html')
 
 
 def givedata(request, ii):
@@ -225,7 +235,7 @@ def saveresponse(request, res):
             cd = aa( post.cd,"-")
             ct = aa(post.ct, ":")
 
-            sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11 )
+            sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
             end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
 
             if tod < end and tod > sta :
@@ -256,7 +266,6 @@ def saveresponse(request, res):
                 }
                 r = r + str(d)+'#'
                 post.Responses = post.Responses + r + "%"
-                # post.save()
                 return HttpResponse("Done")
             else:
                 return HttpResponse("LorE")
