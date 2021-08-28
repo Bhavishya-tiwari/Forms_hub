@@ -138,7 +138,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-SITE_ID = 1
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
@@ -173,4 +172,5 @@ AUTHENTICATION_BACKENDS = [
 
 # Activate Django-Heroku.
 
+SITE_ID = 4
 
