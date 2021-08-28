@@ -18,13 +18,7 @@ import os
 import django_heroku
 from django.contrib.messages import constants as messages
 
-import environ
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
-# reading .env file
-environ.Env.read_env()
+
 
 
 
@@ -123,6 +117,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = "/blog/media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "med")
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # MEDIA_URL = "/blog/media/"
@@ -161,6 +160,7 @@ SOCIALACCOUNT_PROVIDERS = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+django_heroku.settings(locals())
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -173,9 +173,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
 
 
