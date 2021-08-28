@@ -129,7 +129,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-LOGIN_REDIRECT_URL = '/'
 
 TIME_ZONE = 'UTC'
 
@@ -141,8 +140,6 @@ USE_TZ = True
 
 SITE_ID = 3
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -154,6 +151,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+LOGIN_REDIRECT_URL = '/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
