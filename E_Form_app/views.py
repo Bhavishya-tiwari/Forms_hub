@@ -133,7 +133,7 @@ def fillform(request, admin, id):
                 return render(request, 'E_Form_app/filllform.html', {"Qs": o})
             else:
                 o ={
-                    "E":"opps" , "st":sta, "end":end, "t":tod, "e":tod>sta, "l":tod<end, "t":tim, "T1":tim[1], "j":g(tim[1])
+                    "E":"opps" , "st":sta, "end":end, "t":tod, "e":tod>sta, "l":tod<end, "t2":tim, "T1":tim[1], "j":g(tim[1])
                 }
                 return render(request, 'E_Form_app/late.html', {"o":o})
         else:
