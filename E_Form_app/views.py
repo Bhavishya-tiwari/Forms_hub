@@ -30,12 +30,11 @@ def aa(s, d):
 
 
 def Home(request):
+
     return render(request, 'E_Form_app/home.html')
 
 
-def previewform(request):
-    if request.method == "POST":
-        return render(request, 'E_Form_app/preview_Form.html')
+
 
 
 def createformdata(request):
@@ -179,8 +178,9 @@ def createform(request):
     if(request.user.is_authenticated):
         return render(request, 'E_Form_app/createform.html')
     else:
-        messages.error(request, "Please login to create form")
-        return redirect("Home")
+
+        messages.error(request, "Please login to create")
+        return redirect("/")
 
 
 
@@ -291,7 +291,7 @@ def changesettings(request, upd):
             else:
                 post.form_type = "S"
             post.save()
-
+    messages.success(request, "Form settings updated")
     return redirect('/viewmyforms'+str(upd))
 
 def deleteform(request, df):
@@ -431,10 +431,12 @@ def saveresponse(request, res):
 def submitted(req):
     
     return render ( req, 'E_Form_app/late.html', {"o":"fir"})
+    
 
 
 
 def hlogout(request):
     logout(request)
+    messages.error(request, "Logged out sucsessfully")
     return redirect('Home')
 
