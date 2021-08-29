@@ -110,8 +110,29 @@ def fillform(request, admin, id):
 
             sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
             end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
+            perm = "allowed"
+            tosend=[]
+            st = post.Responses
+            re = aa(st, "%")[:-1]
+            for r in re:
+                a = aa(r, "#")[:-1]
+                e = json.loads(str(a[-1]).replace("'", '"'))
+                
+                if post.form_type == "S":
+                    if e["username"] == request.user.username:
+                        perm = "not"
+                    return render(request, 'E_Form_app/late.html', {"o":"already"})
+
+
+                    
+                    
+
+                
+
+            
+
          
-            if tod < end and tod > sta:
+            if ((tod < end) and (tod > sta) and (perm == "allowed" )) or (request.user.username == post.Admin_Username) :
                 
             
 
@@ -239,7 +260,6 @@ def viewmyforms(request, fid):
                 "Ty":z,
                 "i":post.fno,
             }
-            print(qsns)
                 
         return render(request, 'E_Form_app/viewmyforms.html',{"dt":tosend, "lk":lik, "q":qsns, "p":ps})
         
@@ -278,7 +298,6 @@ def deleteform(request, df):
     if request.method == "POST":
         if request.user.username == post.Admin_Username:
             post.delete()
-            print("j")
             messages.success(request, "Form deleted sucsessfully")
             return redirect('/myforms')
 
@@ -362,15 +381,25 @@ def saveresponse(request, res):
 
             sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
             end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
+            perm = "allowed"
+            tosend=[]
+            st = post.Responses
+            re = aa(st, "%")[:-1]
+            for r in re:
+                a = aa(r, "#")[:-1]
+                e = json.loads(str(a[-1]).replace("'", '"'))
+                
+                if post.form_type == "S":
+                    if e["username"] == request.user.username:
+                        perm = "not"
          
-            if tod < end and tod > sta:
+            if ((tod < end) and (tod > sta) and (perm == "allowed" )) or (request.user.username == post.Admin_Username):
 
 
 
 
                 prv = post.Responses
                 A = request.POST.get('Aa', '')
-                print(A)
                 r = ''
                 A = json.loads(A)
                 for a in A["A"]:
@@ -395,9 +424,12 @@ def saveresponse(request, res):
                 # post.Responses = ""
 
                 post.save()
-                return HttpResponse("Done")
+                return HttpResponse("done")
             else:
                 return HttpResponse("LorE")
+def submitted(req):
+    
+    return render ( req, 'E_Form_app/late.html', {"o":"fir"})
 
 
 

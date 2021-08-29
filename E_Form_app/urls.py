@@ -7,6 +7,7 @@ urlpatterns = [
     path('createform', views.createform, name='createform'),
     path('createformdata', views.createformdata, name='createformdata'),
     path('previewform', views.previewform, name='previewform'),
+    path('submitted', views.submitted, name='submitted'),
     path('myforms', views.myforms, name='myforms'),
     path('viewmyforms<int:fid>', views.viewmyforms, name='viewmyforms'),
     path('deleteform/<int:df>', views.deleteform, name='deleteform'),

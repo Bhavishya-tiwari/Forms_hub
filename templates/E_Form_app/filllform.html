@@ -153,31 +153,31 @@ label.light {
   
  
 <div class="ff">
-<h2 class="title">Title :- {{Qs.T}}</h1>
-<h4 class="title" style="margin-bottom: 20px;">Form Discription :- {{Qs.D}}</h4>
+<h2 class="title">Title <i class="fas fa-bolt"></i> {{Qs.T}}</h1>
+<h4 class="title" style="margin-bottom: 20px;">Form Discription <i class="fas fa-bolt"></i> {{Qs.D}}</h4>
     <div class="formm">
     
  {% for q in Qs.Q %}
 {% if q.Type == "Short" %}
-<label for="name">{{q.Qno}}:- {{q.Q}} :</label>
+<label for="name">{{q.Qno}}&#9830; {{q.Q}} :</label>
   <input type="text" id="id{{q.Qno}}" name="user_name">
 {% elif q.Type == "Long" %}
 <hr>
- <label for="bio">{{q.Qno}}:- {{q.Q}} :</label>
+ <label for="bio">{{q.Qno}}&#9830; {{q.Q}} :</label>
   <textarea id="id{{q.Qno}}" name="user_bio"></textarea>
 {% elif q.Type == "Email" %}
 <hr>
-  <label for="email">{{q.Qno}}:- {{q.Q}} :</label>
+  <label for="email">{{q.Qno}}&#9830; {{q.Q}} :</label>
   <input type="email" id="id{{q.Qno}}" name="user_email">
 {% elif q.Type == "MultipleC" %}
 <hr>
-  <label>{{q.Qno}}:- {{q.Q}} :</label>
+  <label>{{q.Qno}}&#9830; {{q.Q}} :</label>
   <br>
   <div id="id{{q.Qno}}">
 
         {% for u in q.opt %}
         
-          <input type="checkbox" id="M{{q.Qno}}{{forloop.counter}}" value="" onclick="if(this.checked) {this.value='on'; }else{this.value='off'}"  name="user_interest"><label class="light" for="development">{{u}} </label><br>
+          <input type="checkbox" id="M{{q.Qno}}{{forloop.counter}}" value="" onclick="if(this.checked) {this.value='on'; }else{this.value='off'}"  name="user_interest"><label class="light" for="M{{q.Qno}}{{forloop.counter}}">{{u}} </label><br>
         {% endfor %}
     </div>
           
@@ -185,12 +185,12 @@ label.light {
 {% elif q.Type == "SingleC" %}
 
 <hr>
-  <label>{{q.Qno}}:- {{q.Q}} :</label>
+  <label>{{q.Qno}}&#9830; {{q.Q}} :</label>
   <br>
   <div id="id{{q.Qno}}">
         {% for u in q.opt %}
         
-          <input type="radio" id="S{{q.Qno}}{{forloop.counter}}"value="j" onclick="if(this.checked) {this.value='on'; } "onblur="this.value='off'" name="user_interest"><label class="light" for="development">{{u}} </label><br>
+          <input type="radio" id="S{{q.Qno}}{{forloop.counter}}"value="j" onclick="if(this.checked) {this.value='on'; } "onblur="this.value='off'" name="user_interest"><label class="light" for="S{{q.Qno}}{{forloop.counter}}">{{u}} </label><br>
         {% endfor %}
         </div>
 
@@ -199,7 +199,7 @@ label.light {
 {% elif q.Type == "Date" %}
 <hr>
 
-<label for="name">{{q.Qno}}:- {{q.Q}} :</label>
+<label for="id{{q.Qno}}">{{q.Qno}}&#9830; {{q.Q}} :</label>
   <input type="date" id="id{{q.Qno}}" name="user_name">
 {% endif %}
 {% endfor %} </div>
@@ -349,15 +349,15 @@ function sumbit(){
         encode: true
     })
         .done(function (data) {
-          console.log(data);
+          window.location.href = "/submitted"
 
+        });
 
           
            
                 
 
 
-        });
 
     event.preventDefault();
 
