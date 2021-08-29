@@ -149,21 +149,7 @@ label.light {
 {% block body %}
  
 
-   <!-- <button class="custom-btn btn-1">Read More</button>
-   <button class="custom-btn btn-2">Read More</button>
-   <button class="custom-btn btn-3"><span>Read More</span></button>
-   <button class="custom-btn btn-4"><span>Read More</span></button>
-   <button class="custom-btn btn-5"><span>Read More</span></button>
-   <button class="custom-btn btn-6"><span>Read More</span></button>
-   <button class="custom-btn btn-7"><span>Read More</span></button>
-   <button class="custom-btn btn-8"><span>Read More</span></button>
-   <button class="custom-btn btn-9">Read More</button>
-   <button class="custom-btn btn-10">Read More</button>
-   <button class="custom-btn btn-11">Read More<div class="dot"></div></button>
-   <button class="custom-btn btn-12"><span>Click!</span><span>Read More</span></button>
-   <button class="custom-btn btn-13">Read More</button>
-   <button class="custom-btn btn-14">Read More</button>
-   <button class="custom-btn btn-15">Read More</button> -->
+  
   
  
 <div class="ff">
@@ -191,7 +177,7 @@ label.light {
 
         {% for u in q.opt %}
         
-          <input type="checkbox" id="M{{q.Qno}}{{forloop.counter}}" value="" onclick="if(this.checked) {this.value='on'; }"  name="user_interest"><label class="light" for="development">{{u}} </label><br>
+          <input type="checkbox" id="M{{q.Qno}}{{forloop.counter}}" value="" onclick="if(this.checked) {this.value='on'; }else{this.value='off'}"  name="user_interest"><label class="light" for="development">{{u}} </label><br>
         {% endfor %}
     </div>
           
@@ -204,7 +190,7 @@ label.light {
   <div id="id{{q.Qno}}">
         {% for u in q.opt %}
         
-          <input type="radio" id="S{{q.Qno}}{{forloop.counter}}"value="j" onclick="if(this.checked) {this.value='on'; }" name="user_interest"><label class="light" for="development">{{u}} </label><br>
+          <input type="radio" id="S{{q.Qno}}{{forloop.counter}}"value="j" onclick="if(this.checked) {this.value='on'; } "onblur="this.value='off'" name="user_interest"><label class="light" for="development">{{u}} </label><br>
         {% endfor %}
         </div>
 
@@ -305,7 +291,7 @@ function sumbit(){
           for(i = 1; i<ll+1; i++ ){
            let a = document.getElementById(`S${e["Qno"]}${i}`).value
            
-           if(document.getElementById(`S${e["Qno"]}${i}`).value == 'on'){
+           if(document.getElementById(`S${e["Qno"]}${i}`).checked){
              o = {
                "T":"sing",
                "Qn":e["Qno"],
@@ -316,21 +302,11 @@ function sumbit(){
              }
              aD.push(o)
            }
-           else{
-            o = {
-               "T":"sing",
-               "Qn":e["Qno"],
-               "A":"",
-               "An":""
-
-
-             }
-             
-            }
+           
+          
             
             
           }
-          aD.push(o)
        
         }
         else if(e["Type"] == "Date"){

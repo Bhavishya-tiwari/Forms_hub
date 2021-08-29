@@ -1,2 +1,343 @@
 {% extends 'base.html' %}
 {% block title %}My Form{% endblock title %}
+{% block css %}
+<style>
+    @import 'https://fonts.googleapis.com/css?family=Open+Sans:600,700';
+
+* {font-family: 'Open Sans', sans-serif;}
+
+.rwd-table {
+  margin: auto;
+  min-width: 300px;
+  max-width: 100%;
+  border-collapse: collapse;
+}
+.container{
+    width: 99vw;
+    min-height: 0;
+    max-height: 80vh;
+    overflow: scroll;
+}
+
+.rwd-table tr:first-child {
+  border-top: none;
+  background: #070c0b;
+  color: #fff;
+}
+
+.rwd-table tr {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background-color: #f5f9fc;
+}
+
+.rwd-table tr:nth-child(odd):not(:first-child) {
+  background-color: #ebf3f9;
+}
+
+.rwd-table th {
+  display: none;
+}
+
+.rwd-table td {
+  display: block;
+}
+
+.rwd-table td:first-child {
+  margin-top: .5em;
+}
+
+.rwd-table td:last-child {
+  margin-bottom: .5em;
+}
+
+.rwd-table td:before {
+  content: attr(data-th) ": ";
+  font-weight: bold;
+  width: 120px;
+  display: inline-block;
+  color: #000;
+}
+
+.rwd-table th,
+.rwd-table td {
+  text-align: left;
+}
+
+.rwd-table {
+  color: #333;
+  border-radius: .4em;
+  overflow: scroll;
+}
+
+.rwd-table tr {
+  border-color: #bfbfbf;
+}
+
+.rwd-table th,
+.rwd-table td {
+  padding: .5em 1em;
+}
+@media screen and (max-width: 601px) {
+  .rwd-table tr:nth-child(2) {
+    border-top: none;
+  }
+}
+@media screen and (min-width: 600px) {
+  .rwd-table tr:hover:not(:first-child) {
+    background-color: #d8e7f3;
+  }
+  .rwd-table td:before {
+    display: none;
+  }
+  .rwd-table th,
+  .rwd-table td {
+    display: table-cell;
+    padding: .25em .5em;
+  }
+  .rwd-table th:first-child,
+  .rwd-table td:first-child {
+    padding-left: 0;
+  }
+  .rwd-table th:last-child,
+  .rwd-table td:last-child {
+    padding-right: 0;
+  }
+  .rwd-table th,
+  .rwd-table td {
+    padding: 1em !important;
+  }
+}
+
+
+/* THE END OF THE IMPORTANT STUFF */
+
+/* Basic Styling */
+
+h1 {
+  text-align: center;
+  font-size: 2.4em;
+  color: #f2f2f2;
+}
+.container {
+  display: block;
+  text-align: center;
+}
+
+.row{
+    min-width: 300px;
+    max-width:600px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10pxvh;
+}
+.link{
+min-width: 200px;
+max-width: 100vw;
+margin: 30px;
+margin-bottom: 2px;
+margin-top: 10px;
+display: none;
+
+
+}
+#ff{
+ margin: auto;
+
+}
+input[type=text]{
+    width:100%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:0px 10;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    transition:.3s;
+    width: 250px;
+  }
+  
+  input[type=text]:focus{
+    border-color:dodgerBlue;
+    box-shadow:0 0 8px 0 dodgerBlue;
+  }
+  .fr{
+      max-width: 700px;
+      min-width: none;
+      margin: auto;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 20vh;
+  }
+
+
+</style>
+{% endblock css %}
+{% block body %}
+
+<div class="link" id="linkk">
+    <div class="linkre" id="link">
+        <input type="text" value="Form Link" id="myInput">
+        
+    </div>
+    <button class="btn btn-primary mt-1" id="copylink" onclick="myFunction()" style="width: 100px;">Copy link</button>
+</div>
+
+
+<div class="container" id="style-8" style="margin-bottom: 20vh;" >
+    <h1 style="color: #000;">Form Data</h1>
+    <h1 style="color: #000;">{{p.T}}</h1>
+    <p style="color: #000;">Active from <span style="color: blue;">{{p.S}}</span> to <span style="color: blue;">{{p.C}}</span></p>
+    <p style="color: #000;">Form Type: <span style="color: blue;">{{p.Ty}}</span> </p>
+      <table class="rwd-table">
+        <tbody style="font-size: 0.6em;">
+          <tr>
+            <th>S no.</th>
+            <th>Name</th>
+            <th>Email</th>
+           
+            <th>Time</th>
+            {% for qs in q %}
+            <th>Qsn {{qs.Qno}}</th>
+            {% endfor %}
+           
+       
+          </tr>
+          <!--  -->
+          <tr style="color: red;">
+            <td data-th="Sno">
+              Qsn
+            </td>
+            <td data-th="Name">
+              {{request.user.first_name}}*<small style="font-size: 0.8em;color: blue;">Admin</small>
+            </td>
+            <td data-th="Email">
+            {{request.user.email}}
+              
+            </td>
+            <td data-th="date">
+            
+            </td>
+            {% for qs in q %}
+            <td data-th="Qsn {{forloop.counter}}">
+              {{qs.Q|wordwrap:20|linebreaksbr}}
+            </td>
+            
+           
+            {% endfor %}
+          </tr>
+          <!--  -->
+
+          {% for d in dt %}
+          <tr>
+            <td data-th="Qsn {{forloop.counter}}">
+              {{forloop.counter}}
+            </td>
+
+            <td data-th="Name">
+              {{d.P.name}}
+            </td>
+            <td data-th="Email">
+              {{d.P.email}}
+            </td>
+            <td data-th="time">
+              {{d.P.time}}
+            </td>
+            {% for dd in d.r %}
+            <td data-th="Qsn number {{forloop.counter}}">
+            
+           {{dd.A | wordwrap:1 }}
+        
+
+              
+            </td>
+            {% endfor %}
+         
+
+
+          </tr>
+         
+          {% endfor %}
+        </tbody>
+      </table>
+      
+
+
+<!-- <button class="custom-btn btn-1">Read More</button>
+    <button class="custom-btn btn-2">Read More</button>
+    <button class="custom-btn btn-3"><span>Read More</span></button>
+    <button class="custom-btn btn-4"><span>Read More</span></button>
+    <button class="custom-btn btn-5"><span>Read More</span></button>
+    <button class="custom-btn btn-6"><span>Read More</span></button>
+    <button class="custom-btn btn-7"><span>Read More</span></button>
+    <button class="custom-btn btn-8"><span>Read More</span></button>
+    <button class="custom-btn btn-9">Read More</button>
+    <button class="custom-btn btn-10">Read More</button>
+    <button class="custom-btn btn-11">Read More<div class="dot"></div></button>
+    <button class="custom-btn btn-12"><span>Click!</span><span>Read More</span></button>
+    <button class="custom-btn btn-13">Read More</button>
+    <button class="custom-btn btn-14">Read More</button>
+    <button class="custom-btn btn-15">Read More</button>  -->
+</div>
+
+
+
+
+
+
+
+
+
+<div id="ff">
+
+
+<form action="/changesettings/{{p.i}}" class="fr" method="POST">
+    {% csrf_token %}
+  <div class="row">
+      <h2>Change form settings-</h2>
+      <h4>Closing time</h4>
+    <div class="col">
+      <input type="date" name="dat" class="form-control" placeholder="First name" aria-label="First name">
+    </div>
+    <div class="col">
+        <input type="time" name="tim" class="form-control" placeholder="Last name" aria-label="Last name">
+    </div>
+    <div class="form-check form-switch mt-3">
+        <input class="form-check-input" name="typee" type="checkbox" id="flexSwitchCheckChecked" checked>
+        <label class="form-check-label" for="flexSwitchCheckChecked">Allow multiple submits</label>
+    </div>
+    
+</div>
+<button class="custom-btn btn-9" type="submit">Update</button>
+<br>
+</form>
+
+<form action="/deleteform/{{p.i}}" method="POST">
+    {% csrf_token %}
+
+
+
+    <button class="custom-btn btn-7" type="submit"><span>Delete Form</span></button>
+</form>
+</div>
+   
+    <script type="text/javascript">
+
+          document.getElementById('linkk').style.display="block"
+          document.getElementById('link').innerHTML = `<input type="text" value="{{lk}}" id="myInput">`;
+         
+          function myFunction() {
+  /* Get the text field */
+  var copyText = document.getElementById("myInput");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  navigator.clipboard.writeText(copyText.value);
+  
+  /* Alert the copied text */
+}
+    </script>
+{% endblock body %}

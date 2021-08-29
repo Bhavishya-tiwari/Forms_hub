@@ -175,13 +175,7 @@ label.light {
 {% endblock css %}
 {% block body %}
 <div class="block mt-4">
-  <div class="link" id="linkk">
-    <div class="linkre" id="link">
-      <input type="text" value="Form Link" id="myInput">
-
-    </div>
-    <button class="btn btn-primary mt-1" id="copylink" onclick="myFunction()" style="width: 100px;">Copy link</button>
-  </div>
+  
   <div class="container">
   <label for="bio"> <h3> Form Title</h3></label>
   <textarea id="title" name="user_bio"></textarea>      
@@ -789,9 +783,15 @@ $('#Send_Data').submit(function (event) {
         encode: true
     })
     .done(function (data) {
-          document.getElementById('linkk').style.display="block"
-          document.getElementById('link').innerHTML = `<input type="text" value="${data}" id="myInput">`;
+          // document.getElementById('linkk').style.display="block"
+          // document.getElementById('link').innerHTML = `<input type="text" value="${data}" id="myInput">`;
+          window.location.href = '/myforms'
           
+        });
+        event.preventDefault();
+      }
+      
+    })
           
           
           
@@ -799,11 +799,6 @@ $('#Send_Data').submit(function (event) {
           
 
           
-        });
-        event.preventDefault();
-      }
-      
-    })
       
       
       

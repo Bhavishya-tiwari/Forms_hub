@@ -1,3 +1,4 @@
+from django import http
 from django.shortcuts import render
 from django.contrib.auth.models import Group, User
 from django.contrib.auth import authenticate,  login, logout
@@ -74,7 +75,7 @@ def createformdata(request):
             # rs.save()
             sno = str(fm.fno)
             # lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + sno
-            lik = "https://form-hub.herokuapp.com/"+"FormHub/" + request.user.username + "/" + sno
+            lik ="FormHub/" + request.user.username + "/" + sno
             
             return HttpResponse(lik)
         except:
@@ -194,17 +195,100 @@ def viewmyforms(request, fid):
         lik = "https://form-hub.herokuapp.com/"+"FormHub/" + request.user.username + "/" + str(fid)
         st = post.Responses
         re = aa(st, "%")[:-1]
+        tosend=[]
+        p = post.Qsns
+        q = list(p.split("$"))[:-1]
+        qsns = []
+        for qs in q:
+            r = qs.replace("'", '"')
+            l = json.loads(r)
+            qsns.append(l)
+
+            if l["Type"] == "MultipleC" or l["Type"] == "SingleC":
+                ll = list(l["opt"].split('&'))[:-1]
+                l["opt"] = ll
+
+        
         for r in re:
-            a = aa(r, "#")
-            print(a)
+            a = aa(r, "#")[:-1]
+            e = json.loads(str(a[-1]).replace("'", '"'))
+            o = {
+                "P":e,
+                "r":[]
+            }
+
+            for r in a[:-1]:
+                f = str(r).replace("'", '"')
+
+                js = json.loads(f)
+                if js["T"] == "M":
+                    js["A"]=str(js["A"]).replace("!",",")[:-1]
+
+                o["r"].append(js)      
+            tosend.append(o)
+            if post.form_type == "M":
+                z ="Multiple submits from one person" 
+            else:
+                z = "Single submit from one person"
+
+             
+            ps = {
+                "S":post.sd + " "+ post.st,
+                "C":post.cd + " "+ post.ct,
+                "T":post.Form_Title,
+                "Ty":z,
+                "i":post.fno,
+            }
+            print(qsns)
+                
+        return render(request, 'E_Form_app/viewmyforms.html',{"dt":tosend, "lk":lik, "q":qsns, "p":ps})
         
 
 
         
 
     
-        return render(request, 'E_Form_app/viewmyforms.html')
 
+
+
+def changesettings(request, upd):
+    post = Forms.objects.filter(fno=upd).first()
+    if request.method == "POST":
+        if request.user.username == post.Admin_Username:
+            d = request.POST.get('dat')
+            t = request.POST.get('tim')
+            ty = request.POST.get('typee')
+
+            if(t != "" and d != ""):
+
+                post.cd = str(d)
+                post.ct = str(t)
+
+            
+            if(ty == "on"):
+                post.form_type = "M"
+            else:
+                post.form_type = "S"
+            post.save()
+
+    return redirect('/viewmyforms'+str(upd))
+
+def deleteform(request, df):
+    post = Forms.objects.filter(fno=df).first()
+    if request.method == "POST":
+        if request.user.username == post.Admin_Username:
+            post.delete()
+            print("j")
+            messages.success(request, "Form deleted sucsessfully")
+            return redirect('/myforms')
+
+
+
+
+
+        
+
+    
 
 def givedata(request, ii):
     if(request.user.is_authenticated):
@@ -286,6 +370,7 @@ def saveresponse(request, res):
 
                 prv = post.Responses
                 A = request.POST.get('Aa', '')
+                print(A)
                 r = ''
                 A = json.loads(A)
                 for a in A["A"]:
@@ -303,10 +388,13 @@ def saveresponse(request, res):
                     "name": request.user.first_name + " " + request.user.last_name,
                     "username": request.user.username,
                     "email": request.user.email,
-                    "time": tod,
+                    "time": str(tod),
                 }
                 r = r + str(d)+'#'
                 post.Responses = post.Responses + r + "%"
+                # post.Responses = ""
+
+                post.save()
                 return HttpResponse("Done")
             else:
                 return HttpResponse("LorE")

@@ -9,8 +9,10 @@ urlpatterns = [
     path('previewform', views.previewform, name='previewform'),
     path('myforms', views.myforms, name='myforms'),
     path('viewmyforms<int:fid>', views.viewmyforms, name='viewmyforms'),
+    path('deleteform/<int:df>', views.deleteform, name='deleteform'),
     path('givedata/<int:ii>', views.givedata, name='givedata'),
     path('saveresponse/<int:res>', views.saveresponse, name='saveresponse'),
+    path('changesettings/<int:upd>', views.changesettings, name='changesettings'),
     path('FormHub/<str:admin>/<int:id>', views.fillform, name='fillform'),
     path('logout', views.hlogout, name='logout'),
     
