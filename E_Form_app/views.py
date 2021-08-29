@@ -85,89 +85,97 @@ def createformdata(request):
 
 def fillform(request, admin, id):
     try:
-            
-        post = Forms.objects.filter(fno=id).first()
-        
-        if post.Admin_Username == admin:
-            tz_NY = pytz.timezone('Asia/Kolkata')   
-            datetime_NY = datetime.now(tz_NY)  
-            d =  datetime_NY.strftime("%Y-%m-%d")    
-            t =  datetime_NY.strftime("%H:%M:%S.%f")    
-          
-         
+        if(request.user.is_authenticated):
 
-            
-            tim = list(str(t).split(":"))
-            # dat = list(str(date.today().strftime("%d/%m/%Y")).split("/"))
-            dat = list(str(d).split("-"))
-            tod = datetime(g(dat[0]), g(dat[1]), g(dat[2]),g(tim[0]), g(tim[1]),11)
 
-            sd = aa( post.sd,"-")
-            st = aa(post.st, ":")
-            cd = aa( post.cd,"-")
-            ct = aa(post.ct, ":")
-
-            sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
-            end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
-            perm = "allowed"
-            tosend=[]
-            st = post.Responses
-            re = aa(st, "%")[:-1]
-            for r in re:
-                a = aa(r, "#")[:-1]
-                e = json.loads(str(a[-1]).replace("'", '"'))
                 
-                if post.form_type == "S":
-                    if e["username"] == request.user.username:
-                        perm = "not"
-                    return render(request, 'E_Form_app/late.html', {"o":"already"})
+            post = Forms.objects.filter(fno=id).first()
+            
+            if post.Admin_Username == admin:
+                tz_NY = pytz.timezone('Asia/Kolkata')   
+                datetime_NY = datetime.now(tz_NY)  
+                d =  datetime_NY.strftime("%Y-%m-%d")    
+                t =  datetime_NY.strftime("%H:%M:%S.%f")    
+            
+            
 
+                
+                tim = list(str(t).split(":"))
+                # dat = list(str(date.today().strftime("%d/%m/%Y")).split("/"))
+                dat = list(str(d).split("-"))
+                tod = datetime(g(dat[0]), g(dat[1]), g(dat[2]),g(tim[0]), g(tim[1]),11)
+
+                sd = aa( post.sd,"-")
+                st = aa(post.st, ":")
+                cd = aa( post.cd,"-")
+                ct = aa(post.ct, ":")
+
+                sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
+                end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
+                perm = "allowed"
+                tosend=[]
+                st = post.Responses
+                re = aa(st, "%")[:-1]
+                for r in re:
+                    a = aa(r, "#")[:-1]
+                    e = json.loads(str(a[-1]).replace("'", '"'))
+                    
+                    if post.form_type == "S":
+                        if e["username"] == request.user.username:
+                            perm = "not"
+                        return render(request, 'E_Form_app/late.html', {"o":"already"})
+
+
+                        
+                        
 
                     
+
+                
+
+            
+                if ((tod < end) and (tod > sta) and (perm == "allowed" )) or (request.user.username == post.Admin_Username) :
                     
-
                 
 
-            
+                    p = post.Qsns
+                    q = list(p.split("$"))[:-1]
+                    qsns = []
+                    for qs in q:
+                        r = qs.replace("'", '"')
+                        l = json.loads(r)
+                        qsns.append(l)
 
-         
-            if ((tod < end) and (tod > sta) and (perm == "allowed" )) or (request.user.username == post.Admin_Username) :
-                
-            
+                        if l["Type"] == "MultipleC" or l["Type"] == "SingleC":
+                            ll = list(l["opt"].split('&'))[:-1]
+                            l["opt"] = ll
 
-                p = post.Qsns
-                q = list(p.split("$"))[:-1]
-                qsns = []
-                for qs in q:
-                    r = qs.replace("'", '"')
-                    l = json.loads(r)
-                    qsns.append(l)
-
-                    if l["Type"] == "MultipleC" or l["Type"] == "SingleC":
-                        ll = list(l["opt"].split('&'))[:-1]
-                        l["opt"] = ll
-
-                o = {
-                    "An": post.Admin_Name,
-                    "Ae": post.Admin_Email,
-                    "T": post.Form_Title,
-                    "D": post.Disc,
-                    "sd": post.sd,
-                    "st": post.st,
-                    "cd": post.cd,
-                    "ct": post.ct,
-                    "Q": qsns,
-                    "id": id
-                }
-                return render(request, 'E_Form_app/filllform.html', {"Qs": o})
+                    o = {
+                        "An": post.Admin_Name,
+                        "Ae": post.Admin_Email,
+                        "T": post.Form_Title,
+                        "D": post.Disc,
+                        "sd": post.sd,
+                        "st": post.st,
+                        "cd": post.cd,
+                        "ct": post.ct,
+                        "Q": qsns,
+                        "id": id
+                    }
+                    return render(request, 'E_Form_app/filllform.html', {"Qs": o})
+                else:
+                    o ={
+                        "E":"opps" , "st":sta, "end":end, "t":tod, "e":tod>sta, "l":tod<end, "t2":tim, "T1":tim[1], "j":g(tim[1])
+                    }
+                    return render(request, 'E_Form_app/late.html', {"o":o})
             else:
-                o ={
-                    "E":"opps" , "st":sta, "end":end, "t":tod, "e":tod>sta, "l":tod<end, "t2":tim, "T1":tim[1], "j":g(tim[1])
-                }
-                return render(request, 'E_Form_app/late.html', {"o":o})
+                messages.error(request, "Errorr")
+                return redirect("Home")
         else:
-            messages.error(request, "Errorr")
+            messages.error(request, "Please login to fill form")
+
             return redirect("Home")
+        
     except:
         messages.error(request, "Error")
         return redirect("Home")
