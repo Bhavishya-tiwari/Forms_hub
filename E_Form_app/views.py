@@ -97,7 +97,13 @@ def fillform(request, admin, id):
 
             sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
             end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
-            if tod < end and tod > sta :
+            print(tod<end)
+            print(tod>sta)
+            print(end)
+            print(sta)
+            print(tod)
+            if tod < end and tod > sta:
+                
             
 
                 p = post.Qsns
