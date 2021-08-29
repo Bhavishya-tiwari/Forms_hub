@@ -88,7 +88,7 @@ def fillform(request, admin, id):
         if post.Admin_Username == admin:
             tim = list(str(datetime.now().strftime("%H:%M:%S")).split(":"))
             dat = list(str(date.today().strftime("%d/%m/%Y")).split("/"))
-            tod = datetime(g(dat[2]), g(dat[1]), g(dat[0]),int(tim[0]), int(tim[1]),int(tim[2]))
+            tod = datetime(g(dat[2]), g(dat[1]), g(dat[0]),g(tim[0]), g(tim[1]),g(tim[2]))
 
             sd = aa( post.sd,"-")
             st = aa(post.st, ":")
