@@ -132,7 +132,10 @@ def fillform(request, admin, id):
                 }
                 return render(request, 'E_Form_app/filllform.html', {"Qs": o})
             else:
-                return render(request, 'E_Form_app/late.html', {"E":"opps" , "st":sta, "end":end})
+                o ={
+                    "E":"opps" , "st":sta, "end":end, "t":tod, "e":tod>sta, "l":tod<end
+                }
+                return render(request, 'E_Form_app/late.html', {"o":o})
         else:
             messages.error(request, "Error")
             return redirect("Home")
