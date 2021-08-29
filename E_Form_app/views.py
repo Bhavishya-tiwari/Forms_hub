@@ -247,19 +247,20 @@ def viewmyforms(request, fid):
 
                 o["r"].append(js)      
             tosend.append(o)
-            if post.form_type == "M":
+        if post.form_type == "M":
                 z ="Multiple submits from one person" 
-            else:
+        else:
                 z = "Single submit from one person"
 
              
-            ps = {
+        ps = {
                 "S":post.sd + " "+ post.st,
                 "C":post.cd + " "+ post.ct,
                 "T":post.Form_Title,
                 "Ty":z,
                 "i":post.fno,
             }
+            
                 
         return render(request, 'E_Form_app/viewmyforms.html',{"dt":tosend, "lk":lik, "q":qsns, "p":ps})
         
