@@ -245,9 +245,31 @@ def saveresponse(request, res):
         if(request.user.is_authenticated):
             post = Forms.objects.filter(fno=res).first()
 
-            tim = list(str(datetime.now().strftime("%H:%M:%S")).split(":"))
-            dat = list(str(date.today().strftime("%d/%m/%Y")).split("/"))
-            tod = datetime(g(dat[2]), g(dat[1]), g(dat[0]),int(tim[0]), int(tim[1]),int(tim[2]))
+            # tim = list(str(datetime.now().strftime("%H:%M:%S")).split(":"))
+            # dat = list(str(date.today().strftime("%d/%m/%Y")).split("/"))
+            # tod = datetime(g(dat[2]), g(dat[1]), g(dat[0]),int(tim[0]), int(tim[1]),int(tim[2]))
+
+            # sd = aa( post.sd,"-")
+            # st = aa(post.st, ":")
+            # cd = aa( post.cd,"-")
+            # ct = aa(post.ct, ":")
+
+            # sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
+            # end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
+
+            # if tod < end and tod > sta :
+            tz_NY = pytz.timezone('Asia/Kolkata')   
+            datetime_NY = datetime.now(tz_NY)  
+            d =  datetime_NY.strftime("%Y-%m-%d")    
+            t =  datetime_NY.strftime("%H:%M:%S.%f")    
+          
+         
+
+            
+            tim = list(str(t).split(":"))
+            # dat = list(str(date.today().strftime("%d/%m/%Y")).split("/"))
+            dat = list(str(d).split("-"))
+            tod = datetime(g(dat[0]), g(dat[1]), g(dat[2]),g(tim[0]), g(tim[1]),11)
 
             sd = aa( post.sd,"-")
             st = aa(post.st, ":")
@@ -256,8 +278,8 @@ def saveresponse(request, res):
 
             sta = datetime(g(sd[0]),g(sd[1]),g(sd[2]),g(st[0]), g(st[1]), 11)
             end = datetime(g(cd[0]),g(cd[1]),g(cd[2]),g(ct[0]), g(ct[1]), 11)
-
-            if tod < end and tod > sta :
+         
+            if tod < end and tod > sta:
 
 
 
