@@ -219,7 +219,7 @@ def myforms(request):
 
 def viewmyforms(request, fid):
     post = Forms.objects.filter(fno=fid).first()
-    if request.user.username == post.Admin_Username or request.user.email == "me200003019@iiti.ac.in":
+    if request.user.username == post.Admin_Username:
         # lik = "http://127.0.0.1:8000/"+"FormHub/" + request.user.username + "/" + str(fid)
         lik = "https://form-hub.herokuapp.com/"+"FormHub/" + request.user.username + "/" + str(fid)
         st = post.Responses
